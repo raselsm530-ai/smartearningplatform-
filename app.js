@@ -1,21 +1,24 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const signupForm = document.getElementById("signupForm");
+function signUp() {
+    let name = document.getElementById("fullname").value;
+    let phone = document.getElementById("phone").value;
+    let password = document.getElementById("password").value;
 
-    signupForm.addEventListener("submit", (e) => {
-        e.preventDefault();
+    if (name === "" || phone === "" || password === "") {
+        alert("Please fill all fields!");
+        return;
+    }
 
-        let fullName = document.getElementById("fullName").value.trim();
-        let phone = document.getElementById("phone").value.trim();
-        let password = document.getElementById("password").value.trim();
+    // Save user data to localStorage
+    let user = {
+        fullname: name,
+        phone: phone,
+        password: password
+    };
 
-        if (!fullName || !phone || !password) {
-            alert("Please fill all fields!");
-            return;
-        }
+    localStorage.setItem("user", JSON.stringify(user));
 
-        let user = { fullName, phone, password };
-        localStorage.setItem("user", JSON.stringify(user));
+    alert("Signup Successful!");
 
-        alert("Account created successfully!");
-    });
-});
+    // Redirect to login page
+    window.location.href = "login.html";
+}
