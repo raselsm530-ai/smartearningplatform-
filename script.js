@@ -1,58 +1,50 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const signupForm = document.getElementById("signupForm");
-    const loginForm = document.getElementById("loginForm");
+// Save user
+function signup() {
+    let username = document.getElementById("signup-username").value;
+    let password = document.getElementById("signup-password").value;
 
-    // ---------------------------
-    // SIGNUP FORM
-    // ---------------------------
-    if (signupForm) {
-        signupForm.addEventListener("submit", function (e) {
-            e.preventDefault();
-
-            const phone = document.getElementById("phone").value;
-            const email = document.getElementById("email").value; // optional
-            const password = document.getElementById("password").value;
-            const confirmPassword = document.getElementById("confirmPassword").value;
-
-            if (phone === "" || password === "" || confirmPassword === "") {
-                alert("Please fill required fields!");
-                return;
-            }
-
-            if (password !== confirmPassword) {
-                alert("Passwords do not match!");
-                return;
-            }
-
-            // Save user data
-            localStorage.setItem("userPhone", phone);
-            localStorage.setItem("userEmail", email);
-            localStorage.setItem("userPassword", password);
-
-            alert("Signup successful!");
-            window.location.href = "login.html";
-        });
+    if (username === "" || password === "") {
+        alert("Please fill all fields!");
+        return;
     }
 
-    // ---------------------------
-    // LOGIN FORM
-    // ---------------------------
-    if (loginForm) {
-        loginForm.addEventListener("submit", function (e) {
-            e.preventDefault();
+    let user = {
+        username: username,
+        password: password
+    };
 
-            const phone = document.getElementById("loginPhone").value;
-            const password = document.getElementById("loginPassword").value;
+    localStorage.setItem("user", JSON.stringify(user));
+    alert("Account Created Successfully!");
 
-            const savedPhone = localStorage.getItem("userPhone");
-            const savedPassword = localStorage.getItem("userPassword");
+    window.location.href = "login.html";
+}
 
-            if (phone === savedPhone && password === savedPassword) {
-                alert("Login successful!");
-                window.location.href = "dashboard.html"; // Redirect after login
-            } else {
-                alert("Invalid phone or password!");
-            }
-        });
+// Login
+function login() {
+    let username = document.getElementById("login-username").value;
+    let password = document.getElementById("login-password").value;
+
+    let savedUser = JSON.parse(localStorage.getItem("user"));
+
+    if (!savedUser) {
+        alert("No account found. Please Sign Up first.");
+        return;
     }
-});
+
+    if (username === savedUser.username && password === savedUser.password) {
+        localStorage.setItem("loggedIn", "true");
+        window.location.href = "dashboard.html";
+    } else {
+        alert("Invalid username or password");
+    }
+}
+
+// Check login on dashboard
+function checkLogin() {
+    let loggedIn = localStorage.getItem("loggedIn");
+
+    if (loggedIn !== "true") {
+        window.location.href = "login.html";
+    } else {
+        let user = JSON.parse(localStorage.getItem("user"));
+        document.getElementBy
