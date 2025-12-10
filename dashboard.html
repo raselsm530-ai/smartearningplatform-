@@ -3,60 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Smart Earning Platform</title>
-
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #e8eef7;
-            padding: 20px;
-        }
-
-        .box {
-            max-width: 400px;
-            background: white;
-            padding: 20px;
-            margin: auto;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-
-        button {
-            width: 100%;
-            padding: 10px;
-            background: red;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            margin-top: 15px;
-        }
-    </style>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<div class="box">
-    <h2>Welcome, <span id="username"></span> 👋</h2>
-    <p>You are successfully logged into Smart Earning Platform.</p>
+    <div class="container">
+        <h2>Welcome!</h2>
 
-    <button onclick="logout()">Logout</button>
-</div>
+        <p id="userName"></p>
+        <p id="userPhone"></p>
 
-<script>
-    // লগইন করা ইউজারের তথ্য নেওয়া
-    let user = JSON.parse(localStorage.getItem("loggedUser"));
+        <button onclick="logout()">Logout</button>
+    </div>
 
-    if (!user) {
-        window.location.href = "login.html"; // লগইন না থাকলে ফেরত পাঠাবে
-    }
+    <script>
+        // Load stored user info
+        let user = JSON.parse(localStorage.getItem("user"));
 
-    document.getElementById("username").innerText = user.username;
+        if (!user) {
+            window.location.href = "login.html";
+        }
 
-    function logout() {
-        localStorage.removeItem("loggedUser");
-        alert("Logged out successfully!");
-        window.location.href = "login.html";
-    }
-</script>
+        document.getElementById("userName").innerText = "Name: " + user.fullname;
+        document.getElementById("userPhone").innerText = "Phone: " + user.phone;
+
+        function logout() {
+            localStorage.removeItem("user");
+            window.location.href = "login.html";
+        }
+    </script>
 
 </body>
 </html>
