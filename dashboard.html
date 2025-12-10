@@ -3,19 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Earning Platform - Dashboard</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Dashboard - Smart Earning Platform</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #e8eef7;
+            padding: 20px;
+        }
+
+        .box {
+            max-width: 400px;
+            background: white;
+            padding: 20px;
+            margin: auto;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background: red;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin-top: 15px;
+        }
+    </style>
 </head>
-<body onload="checkLogin()"> 
+<body>
 
-<div class="container">
-    <h2>Welcome to Dashboard</h2>
-
-    <p id="user-info"></p>
+<div class="box">
+    <h2>Welcome, <span id="username"></span> 👋</h2>
+    <p>You are successfully logged into Smart Earning Platform.</p>
 
     <button onclick="logout()">Logout</button>
 </div>
 
-<script src="script.js"></script>
+<script>
+    // লগইন করা ইউজারের তথ্য নেওয়া
+    let user = JSON.parse(localStorage.getItem("loggedUser"));
+
+    if (!user) {
+        window.location.href = "login.html"; // লগইন না থাকলে ফেরত পাঠাবে
+    }
+
+    document.getElementById("username").innerText = user.username;
+
+    function logout() {
+        localStorage.removeItem("loggedUser");
+        alert("Logged out successfully!");
+        window.location.href = "login.html";
+    }
+</script>
+
 </body>
 </html>
