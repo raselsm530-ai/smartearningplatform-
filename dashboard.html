@@ -1,83 +1,53 @@
-      <a class="link-inline" href="index.html">Home</a> &nbsp; • &nbsp;
-      <a class="link-inline" href="logout.html">Logout</a>
-    </div>
-  </div>
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Earning Platform - Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            padding: 20px;
+            text-align: center;
+        }
+        .box {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: auto;
+            max-width: 350px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h2 { color: #333; }
+        button {
+            padding: 10px 20px;
+            border: none;
+            background: #007bff;
+            color: white;
+            border-radius: 5px;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
 
-  <footer>
-    © YourSiteName — Manage deposits, packages & withdrawals securely.
-  </footer>
-
-  <!-- Deposit modal -->
-  <div class="modal" id="modalDeposit" aria-hidden="true">
     <div class="box">
-      <h3>Deposit Amount</h3>
-      <input id="depositAmount" class="input" type="number" placeholder="Enter amount (৳)" />
-      <div style="margin-top:12px; display:flex; gap:10px;">
-        <button class="btn-main" id="doDeposit">Deposit</button>
-        <button class="btn-secondary" id="closeDeposit">Cancel</button>
-      </div>
-      <p class="small" style="margin-top:10px;">Use your preferred payment method after confirming.</p>
+        <h2>Welcome to Your Dashboard</h2>
+        <p>You are successfully logged in!</p>
+
+        <button onclick="logout()">Logout</button>
     </div>
-  </div>
 
-  <!-- Withdraw modal -->
-  <div class="modal" id="modalWithdraw" aria-hidden="true">
-    <div class="box">
-      <h3>Withdraw Amount</h3>
-      <input id="withdrawAmount" class="input" type="number" placeholder="Enter amount (৳)" />
-      <input id="withdrawMethod" class="input" type="text" placeholder="Payment method (Bkash/Rocket/etc.)" />
-      <div style="margin-top:12px; display:flex; gap:10px;">
-        <button class="btn-main" id="doWithdraw">Request Withdraw</button>
-        <button class="btn-secondary" id="closeWithdraw">Cancel</button>
-      </div>
-      <p class="small" style="margin-top:10px;">Withdraw requests are processed within 24-48 hours (example).</p>
-    </div>
-  </div>
-
-  <script>
-    // Simple frontend demo logic (no backend). Replace with real API calls later.
-    let balance = 1250.00;
-    const balanceEl = document.getElementById('balanceAmount');
-
-    // Modal handlers
-    const modalDeposit = document.getElementById('modalDeposit');
-    const modalWithdraw = document.getElementById('modalWithdraw');
-
-    document.getElementById('openDeposit').addEventListener('click', function(e){
-      e.preventDefault(); modalDeposit.style.display = 'flex';
-    });
-    document.getElementById('closeDeposit').addEventListener('click', function(){ modalDeposit.style.display = 'none'; });
-    document.getElementById('openWithdraw').addEventListener('click', function(e){
-      e.preventDefault(); modalWithdraw.style.display = 'flex';
-    });
-    document.getElementById('closeWithdraw').addEventListener('click', function(){ modalWithdraw.style.display = 'none'; });
-
-    // Fake deposit action
-    document.getElementById('doDeposit').addEventListener('click', function(){
-      const v = parseFloat(document.getElementById('depositAmount').value || 0);
-      if(v <= 0){ alert('Enter a valid amount'); return; }
-      balance += v;
-      balanceEl.textContent = '৳ ' + balance.toFixed(2);
-      modalDeposit.style.display = 'none';
-      alert('Deposit recorded (demo). In real system you will be redirected to payment.');
-    });
-
-    // Fake withdraw action
-    document.getElementById('doWithdraw').addEventListener('click', function(){
-      const v = parseFloat(document.getElementById('withdrawAmount').value || 0);
-      if(v <= 0 || v > balance){ alert('Enter a valid amount (<= balance)'); return; }
-      balance -= v;
-      balanceEl.textContent = '৳ ' + balance.toFixed(2);
-      modalWithdraw.style.display = 'none';
-      alert('Withdraw request sent (demo). Admin will approve in real system.');
-    });
-
-    // close modals if click outside
-    window.addEventListener('click', function(e){
-      if(e.target === modalDeposit) modalDeposit.style.display = 'none';
-      if(e.target === modalWithdraw) modalWithdraw.style.display = 'none';
-    });
-  </script>
+    <script>
+        function logout() {
+            window.location.href = "login.html";
+        }
+    </script>
 
 </body>
-</html>
+</html>          
