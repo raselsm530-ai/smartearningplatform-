@@ -1,33 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Join Group</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<div class="container">
-    <h2>Join Group</h2>
+    <div class="container">
+        <h2>Select a Group</h2>
 
-    <p>Select your group:</p>
+        <select id="groupSelect">
+            <option value="">-- Select Group --</option>
+            <option value="Group A">Group A</option>
+            <option value="Group B">Group B</option>
+            <option value="Group C">Group C</option>
+        </select>
 
-    <select id="groupSelect" style="width:100%; padding:12px; margin:10px 0;">
-        <option value="">-- Select a group --</option>
-        <option value="Silver Group">Silver Group</option>
-        <option value="Gold Group">Gold Group</option>
-        <option value="VIP Group">VIP Group</option>
-    </select>
+        <button onclick="joinGroup()">Join Group</button>
 
-    <button onclick="joinGroup()">Join Group</button>
+        <br><br>
 
-    <br><br>
+        <a href="dashboard.html">Back to Dashboard</a>
+    </div>
 
-    <a href="dashboard.html">Back to Dashboard</a>
-</div>
-
-<script src="group.js"></script>
-
+    <script src="group.js"></script>
 </body>
 </html>
