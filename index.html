@@ -3,104 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>নিবন্ধন</title>
-
-    <link rel="stylesheet" href="style.css">
-
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(to bottom right, #25c481, #1fa2ff);
-            margin: 0;
-            padding: 0;
-        }
-
-        .container {
-            width: 90%;
-            max-width: 420px;
-            background: white;
-            margin: 40px auto;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-        }
-
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .input-group {
-            margin-bottom: 15px;
-        }
-
-        .input-group input {
-            width: 100%;
-            padding: 14px;
-            font-size: 16px;
-            border-radius: 30px;
-            border: 2px solid #25c481;
-            outline: none;
-        }
-
-        button {
-            width: 100%;
-            padding: 14px;
-            background: linear-gradient(to right, #25c481, #1fa2ff);
-            border: none;
-            color: white;
-            font-size: 18px;
-            border-radius: 30px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-
-        .login-link {
-            text-align: center;
-            margin-top: 15px;
-        }
-
-        .login-link a {
-            color: #0066ff;
-            text-decoration: none;
-            font-weight: bold;
-        }
-    </style>
+    <title>Register</title>
 </head>
-
 <body>
 
     <div class="container">
-        <h2>নিবন্ধন</h2>
 
-        <div class="input-group">
-            <input type="text" id="phone" placeholder="ফোন নম্বর">
-        </div>
+        <form id="registerForm">
 
-        <div class="input-group">
-            <input type="password" id="password" placeholder="লগইন পাসওয়ার্ড">
-        </div>
+            <div class="input-group">
+                <input type="text" id="phone" placeholder="মোবাইল নম্বর">
+            </div>
 
-        <div class="input-group">
-            <input type="password" id="confirmPassword" placeholder="লগইন পাসওয়ার্ড নিশ্চিত করুন">
-        </div>
+            <div class="input-group">
+                <input type="password" id="password" placeholder="পাসওয়ার্ড">
+            </div>
 
-        <div class="input-group">
-            <input type="number" id="withdrawPin" placeholder="উইথড্র পিন লিখুন">
-        </div>
+            <div class="input-group">
+                <input type="password" id="confirmPassword" placeholder="কনফার্ম পাসওয়ার্ড">
+            </div>
 
-        <div class="input-group">
-            <input type="text" id="refCode" placeholder="আমন্ত্রণ কোড (ঐচ্ছিক)">
-        </div>
+            <div class="input-group">
+                <input type="number" id="withdrawPin" placeholder="উত্তোলন পিন (৪ সংখ্যা)">
+            </div>
 
-        <button onclick="registerUser()">নিবন্ধন</button>
+            <div class="input-group">
+                <input type="text" id="inviteCode" placeholder="রেফার কোড">
+            </div>
+
+            <button type="submit">রেজিস্টার</button>
+
+        </form>
 
         <div class="login-link">
             <a href="login.html">লগইন</a>
         </div>
+
     </div>
 
     <script src="register.js"></script>
-
 </body>
-</html>
+</html>    
