@@ -3,77 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Dashboard</title>
+    <title>Dashboard</title>
 
     <style>
         body {
-            margin: 0;
             font-family: Arial, sans-serif;
-            background: linear-gradient(120deg, #3a7bd5, #00d2ff);
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            background: #f2f2f2;
+            margin: 0;
+            padding: 0;
         }
 
-        .dashboard-box {
-            width: 90%;
-            max-width: 450px;
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
+        .top-bar {
+            background: #0a9d41;
+            color: white;
+            padding: 15px;
             text-align: center;
-            box-shadow: 0 0 15px rgba(0,0,0,0.15);
-        }
-
-        h2 {
-            margin-bottom: 10px;
-        }
-
-        #username {
+            font-size: 22px;
             font-weight: bold;
-            color: #007bff;
+        }
+
+        .container {
+            margin: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 0 8px rgba(0,0,0,0.1);
+        }
+
+        .info-box {
+            font-size: 18px;
+            padding: 10px;
+            border-left: 5px solid #0a9d41;
+            margin-bottom: 15px;
+            background: #f8fff9;
         }
 
         button {
             width: 100%;
             padding: 12px;
-            border: none;
-            background: #ff4d4d;
+            background: #0a9d41;
             color: white;
+            border: none;
             font-size: 18px;
-            border-radius: 8px;
-            margin-top: 20px;
+            border-radius: 6px;
             cursor: pointer;
         }
 
         button:hover {
-            background: #e60000;
+            background: #087a34;
+        }
+
+        .menu {
+            margin-top: 20px;
+        }
+
+        .menu a {
+            display: block;
+            background: #e8ffe8;
+            padding: 12px;
+            text-decoration: none;
+            color: #0a9d41;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            font-size: 18px;
+            border: 1px solid #0a9d41;
+            text-align: center;
+        }
+
+        .menu a:hover {
+            background: #c1ffc1;
         }
     </style>
 </head>
 
 <body>
-    <div class="dashboard-box">
-        <h2>Welcome, <span id="username"></span> 👋</h2>
-        <p>You are logged in successfully.</p>
+
+    <div class="top-bar">User Dashboard</div>
+
+    <div class="container">
+
+        <div class="info-box" id="userName"></div>
+        <div class="info-box" id="userPhone"></div>
+
+        <div class="menu">
+            <a href="deposit.html">💰 Deposit</a>
+            <a href="withdraw.html">💸 Withdraw</a>
+            <a href="team.html">👥 My Team</a>
+            <a href="wallet.html">👜 Wallet</a>
+        </div>
 
         <button onclick="logout()">Logout</button>
     </div>
 
     <script>
-        const loggedUser = localStorage.getItem("user");
+        // Check Login Status
+        let isLoggedIn = localStorage.getItem("isLoggedIn");
+        let userData = localStorage.getItem("user");
 
-        if (!loggedUser) {
+        if (isLoggedIn !== "true" || !userData) {
             window.location.href = "login.html";
         }
 
-        document.getElementById("username").innerText = loggedUser;
+        let user = JSON.parse(userData);
+
+        document.getElementById("userName").innerText = "👤 Name: " + user.fullname;
+        document.getElementById("userPhone").innerText = "📞 Phone: " + user.phone;
 
         function logout() {
-            localStorage.removeItem("user");
+            localStorage.removeItem("isLoggedIn");
             window.location.href = "login.html";
         }
     </script>
+
 </body>
-</html>
+</html>        
