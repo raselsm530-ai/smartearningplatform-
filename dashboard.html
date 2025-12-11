@@ -15,19 +15,57 @@
         <p id="userName"></p>
         <p id="userPhone"></p>
 
+        <hr>
+
+        <h3>Your Wallet Balance</h3>
+        <p><strong><span id="walletBalance">0</span> BDT</strong></p>
+
+        <hr>
+
+        <h3>Your Group</h3>
+        <p><span id="groupName">Not Joined</span></p>
+        <a href="group.html">Join a Group</a>
+
+        <hr>
+
+        <button onclick="goDeposit()">Deposit</button>
+        <button onclick="goWallet()">Wallet</button>
+        <button onclick="goWithdraw()">Withdraw</button>
+
+        <br><br>
         <button onclick="logout()">Logout</button>
     </div>
 
     <script>
-        // Load stored user info
+        // Load user
         let user = JSON.parse(localStorage.getItem("user"));
-
         if (!user) {
             window.location.href = "login.html";
         }
 
         document.getElementById("userName").innerText = "Name: " + user.fullname;
         document.getElementById("userPhone").innerText = "Phone: " + user.phone;
+
+        // Load balance
+        let balance = localStorage.getItem("wallet") || 0;
+        document.getElementById("walletBalance").innerText = balance;
+
+        // Load group
+        let group = localStorage.getItem("userGroup") || "Not Joined";
+        document.getElementById("groupName").innerText = group;
+
+        // Buttons
+        function goDeposit() {
+            window.location.href = "deposit.html";
+        }
+
+        function goWallet() {
+            window.location.href = "wallet.html";
+        }
+
+        function goWithdraw() {
+            window.location.href = "withdraw.html";
+        }
 
         function logout() {
             localStorage.removeItem("user");
