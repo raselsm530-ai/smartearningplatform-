@@ -1,43 +1,43 @@
-// ===============================
-// Wallet System
-// ===============================
+// =========================
+// Wallet System Functions
+// =========================
 
-// Get current balance from localStorage
+// Get current balance
 function getBalance() {
     let balance = localStorage.getItem("walletBalance");
-    return balance ? parseFloat(balance) : 0;
+    if (!balance) {
+        return 0; // default balance
+    }
+    return parseFloat(balance);
 }
 
-// Update balance in localStorage
-function setBalance(amount) {
-    localStorage.setItem("walletBalance", amount);
-}
-
-// Add money (after deposit success)
+// Add money (For Deposit)
 function addMoney(amount) {
     let current = getBalance();
     let newBalance = current + amount;
 
-    setBalance(newBalance);
+    localStorage.setItem("walletBalance", newBalance);
     return newBalance;
 }
 
-// Reduce money (withdraw or package buy)
-function reduceMoney(amount) {
+// Deduct money (For Withdraw / Buy Package)
+function deductMoney(amount) {
     let current = getBalance();
 
     if (amount > current) {
-        return false; // Not enough balance
+        return false;
     }
 
     let newBalance = current - amount;
-    setBalance(newBalance);
-    return true;
+    localStorage.setItem("walletBalance", newBalance);
+
+    return newBalance;
 }
 
-// Show balance on any page (optional)
-function showBalance(elementId) {
-    if (document.getElementById(elementId)) {
-        document.getElementById(elementId).innerText = getBalance().toFixed(2);
+// Show balance on dashboard
+function showBalance() {
+    let balanceBox = document.getElementById("balance");
+    if (balanceBox) {
+        balanceBox.innerText = getBalance() + "৳";
     }
 }
