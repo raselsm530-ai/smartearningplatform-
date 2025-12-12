@@ -1,49 +1,58 @@
+/* Global Styles */
 body {
     margin: 0;
     font-family: "Poppins", sans-serif;
-    background: #f1f4ff;
+    background: #eef3ff;
 }
 
-/* Header */
+/* Header Section */
 .home-header {
-    background: linear-gradient(135deg, #4e73df, #3a57d6);
-    padding: 40px 20px;
+    background: linear-gradient(135deg, #3d5af1, #5a73ec);
+    padding: 45px 20px;
     text-align: center;
     color: white;
     border-bottom-left-radius: 40px;
     border-bottom-right-radius: 40px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
 }
 
 .home-header h2 {
     margin: 0;
-    font-size: 30px;
+    font-size: 32px;
+    font-weight: 700;
 }
 
-/* Balance Box */
+.home-header p {
+    font-size: 16px;
+    opacity: 0.9;
+    margin-top: 8px;
+}
+
+/* Top Balance Box */
 .balance-box {
-    margin: -20px auto 20px;
-    width: 85%;
-    background: white;
-    padding: 20px;
-    border-radius: 20px;
+    width: 90%;
+    margin: -25px auto 20px;
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 22px;
     text-align: center;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.10);
 }
 
 .balance-box h3 {
-    margin: 0;
-    color: #555;
     font-size: 18px;
+    color: #666;
+    margin: 0;
 }
 
 .balance-box p {
-    font-size: 32px;
+    font-size: 36px;
     font-weight: bold;
-    margin-top: 5px;
-    color: #333;
+    color: #222;
+    margin-top: 10px;
 }
 
-/* Menu Grid */
+/* Main Grid Menu */
 .grid-menu {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -51,31 +60,43 @@ body {
     padding: 20px;
 }
 
+/* Menu Card */
 .menu-card {
-    background: white;
-    padding: 20px;
-    border-radius: 20px;
+    background: #ffffff;
+    padding: 25px 15px;
+    border-radius: 22px;
     text-align: center;
-    transition: 0.2s;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+    transition: 0.25s;
 }
 
 .menu-card img {
-    width: 50px;
-    margin-bottom: 10px;
+    width: 55px;
+    margin-bottom: 12px;
 }
 
 .menu-card h4 {
     margin: 0;
-    font-size: 18px;
+    font-size: 20px;
+    font-weight: 600;
+    color: #222;
 }
 
+.menu-card p {
+    font-size: 15px;
+    color: #777;
+    margin-top: 5px;
+}
+
+/* Hover Effect */
 .menu-card:hover {
-    transform: scale(1.05);
+    transform: scale(1.06);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
 }
 
-/* Logout */
+/* Logout Special Design */
 .logout {
-    background: #ffe5e5;
-    color: #d40000;
+    background: #ffebeb !important;
+    color: #d00000 !important;
+    border: 2px solid #ffbcbc;
 }
