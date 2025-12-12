@@ -1,55 +1,52 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
 
-    <!-- CSS Proper Path -->
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
     <div class="container">
 
-        <h2>রেজিস্টার</h2>
+        <h2 class="page-title">রেজিস্টার</h2>
 
-        <div class="input-group">
-            <input type="text" id="phone" placeholder="মোবাইল নম্বর">
-        </div>
+        <form id="registerForm">
 
-        <div class="input-group">
-            <input type="password" id="password" placeholder="পাসওয়ার্ড">
-        </div>
+            <div class="input-group">
+                <input type="text" id="phone" placeholder="মোবাইল নম্বর" required>
+            </div>
 
-        <div class="input-group">
-            <input type="password" id="confirmPassword" placeholder="কনফার্ম পাসওয়ার্ড">
-        </div>
+            <div class="input-group">
+                <input type="password" id="password" placeholder="পাসওয়ার্ড" required>
+            </div>
 
-        <div class="input-group">
-            <input type="number" id="withdrawPin" placeholder="উইথড্রো পিন (৪ সংখ্যা)">
-        </div>
+            <div class="input-group">
+                <input type="password" id="confirmPassword" placeholder="কনফার্ম পাসওয়ার্ড" required>
+            </div>
 
-        <div class="input-group">
-            <input type="text" id="refCode" placeholder="রেফার কোড">
-        </div>
+            <div class="input-group">
+                <input type="number" id="withdrawPin" placeholder="উত্তোলন পিন (৪ সংখ্যা)" required>
+            </div>
 
-        <button onclick="registerUser()">রেজিস্টার</button>
+            <div class="input-group">
+                <input type="text" id="inviteCode" placeholder="রেফার কোড">
+            </div>
+
+            <button type="submit" class="btn-primary">রেজিস্টার</button>
+
+        </form>
 
         <div class="login-link">
+            <p>ইতিমধ্যে অ্যাকাউন্ট আছে?</p>
             <a href="login.html">লগইন</a>
         </div>
 
     </div>
 
-    <!-- 🔥 Auto-fill invite code -->
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            document.getElementById("refCode").value = "RASEL001";
-        });
-    </script>
-
     <script src="register.js"></script>
+
 </body>
 </html>
