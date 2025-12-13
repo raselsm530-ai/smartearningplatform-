@@ -1,4 +1,4 @@
- /* =========================
+/* =========================
    লগইন চেক
 ========================= */
 if (localStorage.getItem("loggedIn") !== "true") {
@@ -20,20 +20,22 @@ if (!userData) {
    Withdraw Function
 ========================= */
 function withdrawMoney() {
+
     let amount = parseInt(document.getElementById("withdrawAmount").value);
     let pin = document.getElementById("withdrawPin").value.trim();
 
+    /* এমাউন্ট চেক */
     if (!amount || amount <= 0) {
         alert("সঠিক উত্তোলন এমাউন্ট লিখুন!");
         return;
     }
 
+    /* পিন চেক */
     if (!pin || pin.length !== 4) {
         alert("৪ সংখ্যার সঠিক পিন দিন!");
         return;
     }
 
-    /* পিন চেক */
     if (pin !== userData.withdrawPin) {
         alert("ভুল উত্তোলন পিন!");
         return;
@@ -46,7 +48,7 @@ function withdrawMoney() {
     }
 
     /* ব্যালেন্স আপডেট */
-    userData.balance -= amount;
+    userData.balance = userData.balance - amount;
 
     /* ট্রানজেকশন হিস্টরি */
     if (!userData.transactions) {
@@ -70,4 +72,4 @@ function withdrawMoney() {
 
     /* হোমে পাঠানো */
     window.location.href = "home.html";
-}   
+}    
