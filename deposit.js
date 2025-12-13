@@ -1,41 +1,33 @@
-/* =========================
-   লগইন চেক
-========================= */
 if (localStorage.getItem("loggedIn") !== "true") {
     window.location.href = "login.html";
 }
 
-/* =========================
-   ইউজার লোড
-========================= */
 let currentPhone = localStorage.getItem("currentUser");
 let userData = JSON.parse(localStorage.getItem(currentPhone));
 
 if (!userData) {
-    alert("ইউজার পাওয়া যায়নি! আবার লগইন করুন।");
+    alert("ইউজার পাওয়া যায়নি!");
     window.location.href = "login.html";
 }
 
-/* =========================
-   Deposit Function
-========================= */
 function depositMoney() {
     let amount = parseInt(document.getElementById("depositAmount").value);
+    let method = document.getElementById("paymentMethod").value;
+    let trxId = document.getElementById("trxId").value.trim();
 
     if (!amount || amount <= 0) {
-        alert("সঠিক ডিপোজিট এমাউন্ট লিখুন!");
+        alert("সঠিক এমাউন্ট লিখুন");
+        return;
+    }
+    if (!method) {
+        alert("পেমেন্ট মেথড নির্বাচন করুন");
+        return;
+    }
+    if (!trxId) {
+        alert("Transaction ID দিন");
         return;
     }
 
-    /* ব্যালেন্স না থাকলে 0 ধরবে */
-    if (!userData.balance) {
-        userData.balance = 0;
-    }
-
-    /* ব্যালেন্স যোগ */
-    userData.balance += amount;
-
-    /* ট্রানজেকশন হিস্টরি */
     if (!userData.transactions) {
         userData.transactions = [];
     }
@@ -43,15 +35,15 @@ function depositMoney() {
     userData.transactions.push({
         type: "Deposit",
         amount: amount,
+        method: method,
+        trxId: trxId,
+        status: "Pending",
         date: new Date().toLocaleString()
     });
 
-    /* সেভ */
     localStorage.setItem(currentPhone, JSON.stringify(userData));
 
-    alert("ডিপোজিট সফল হয়েছে ✅");
-
-    document.getElementById("depositAmount").value = "";
+    alert("ডিপোজিট রিকুয়েস্ট পাঠানো হয়েছে ⏳ (Pending)");
 
     window.location.href = "home.html";
 }
