@@ -6,27 +6,20 @@ if (localStorage.getItem("loggedIn") !== "true") {
 let currentPhone = localStorage.getItem("currentUser");
 let userData = JSON.parse(localStorage.getItem(currentPhone));
 
-if (!userData) {
-    alert("ইউজার পাওয়া যায়নি!");
-    window.location.href = "login.html";
-}
-
 function depositMoney() {
     let amount = parseInt(document.getElementById("depositAmount").value);
 
     if (!amount || amount <= 0) {
-        alert("সঠিক এমাউন্ট লিখুন!");
+        alert("সঠিক এমাউন্ট দিন");
         return;
     }
 
-    /* ব্যালেন্স না থাকলে 0 সেট */
     if (!userData.balance) {
         userData.balance = 0;
     }
 
     userData.balance += amount;
 
-    /* ট্রানজেকশন হিস্টরি */
     if (!userData.transactions) {
         userData.transactions = [];
     }
@@ -39,7 +32,6 @@ function depositMoney() {
 
     localStorage.setItem(currentPhone, JSON.stringify(userData));
 
-    alert("ডিপোজিট সফল হয়েছে ✅");
-
+    alert("টাকা যোগ সফল ✅");
     window.location.href = "home.html";
 }
