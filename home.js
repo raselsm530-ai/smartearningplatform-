@@ -6,15 +6,9 @@ if (localStorage.getItem("loggedIn") !== "true") {
 }
 
 /* =========================
-   বর্তমান ইউজার লোড
+   ইউজার লোড
 ========================= */
 let currentPhone = localStorage.getItem("currentUser");
-
-if (!currentPhone) {
-    alert("লগইন তথ্য পাওয়া যায়নি!");
-    window.location.href = "login.html";
-}
-
 let userData = JSON.parse(localStorage.getItem(currentPhone));
 
 if (!userData) {
@@ -26,18 +20,13 @@ if (!userData) {
    ওয়েলকাম টেক্সট
 ========================= */
 document.getElementById("welcomeText").innerText =
-    `স্বাগতম, ${userData.phone} 🎉`;
+    "স্বাগতম, " + userData.phone + " 🎉";
 
 /* =========================
    ব্যালেন্স দেখানো
 ========================= */
-if (userData.balance === undefined) {
-    userData.balance = 0;
-    localStorage.setItem(currentPhone, JSON.stringify(userData));
-}
-
-document.getElementById("balanceText").innerText =
-    userData.balance + " ৳";
+let balance = userData.balance ? userData.balance : 0;
+document.getElementById("balanceText").innerText = balance + " ৳";
 
 /* =========================
    লগআউট
