@@ -1,4 +1,4 @@
-/* =========================
+ /* =========================
    লগইন চেক
 ========================= */
 if (localStorage.getItem("loggedIn") !== "true") {
@@ -36,6 +36,7 @@ function withdrawMoney() {
         return;
     }
 
+    /* পিন মিলছে কিনা */
     if (pin !== userData.withdrawPin) {
         alert("ভুল উত্তোলন পিন!");
         return;
@@ -70,6 +71,6 @@ function withdrawMoney() {
     document.getElementById("withdrawAmount").value = "";
     document.getElementById("withdrawPin").value = "";
 
-    /* হোমে পাঠানো */
+    /* হোমে রিডাইরেক্ট */
     window.location.href = "home.html";
-}    
+}   
