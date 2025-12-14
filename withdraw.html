@@ -2,31 +2,23 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <title>উত্তোলন</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Withdraw</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
 <div class="container">
-    <h2 class="page-title">উত্তোলন করুন</h2>
+    <h2 class="page-title">Withdraw</h2>
 
     <div class="input-group">
-        <input type="number" id="withdrawAmount" placeholder="উত্তোলন এমাউন্ট">
+        <input type="number" id="withdrawAmount" placeholder="Amount">
     </div>
 
     <div class="input-group">
-        <input type="password" id="withdrawPin" placeholder="৪ সংখ্যার পিন">
+        <input type="password" id="withdrawPin" placeholder="PIN">
     </div>
 
-    <button class="btn-primary" onclick="withdrawMoney()">
-        উত্তোলন
-    </button>
-
-    <div class="login-link">
-        <a href="home.html">হোমে ফিরে যান</a>
-    </div>
+    <button onclick="withdrawMoney()">Withdraw</button>
 </div>
 
 <script src="withdraw.js"></script>
