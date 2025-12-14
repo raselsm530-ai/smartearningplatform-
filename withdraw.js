@@ -1,74 +1,28 @@
-/* =========================
-   লগইন চেক
-========================= */
-if (localStorage.getItem("loggedIn") !== "true") {
-    window.location.href = "login.html";
-}
+ let phone = localStorage.getItem("currentUser");
+let user = JSON.parse(localStorage.getItem(phone));
 
-/* =========================
-   ইউজার লোড
-========================= */
-let currentPhone = localStorage.getItem("currentUser");
-let userData = JSON.parse(localStorage.getItem(currentPhone));
-
-if (!userData) {
-    alert("ইউজার পাওয়া যায়নি! আবার লগইন করুন।");
-    window.location.href = "login.html";
-}
-
-/* =========================
-   Withdraw Function
-========================= */
 function withdrawMoney() {
-    let amount = parseInt(document.getElementById("withdrawAmount").value);
-    let pin = document.getElementById("withdrawPin").value.trim();
+    let amount = parseInt(withdrawAmount.value);
+    let pin = withdrawPin.value;
 
-    /* এমাউন্ট চেক */
-    if (!amount || amount <= 0) {
-        alert("সঠিক উত্তোলন এমাউন্ট লিখুন!");
+    if (pin !== user.withdrawPin) {
+        alert("ভুল পিন");
         return;
     }
 
-    /* পিন চেক */
-    if (!pin || pin.length !== 4) {
-        alert("৪ সংখ্যার সঠিক পিন দিন!");
+    if (user.balance < amount) {
+        alert("ব্যালেন্স নেই");
         return;
     }
 
-    if (pin !== userData.withdrawPin) {
-        alert("ভুল উত্তোলন পিন!");
-        return;
-    }
+    user.balance -= amount;
 
-    /* ব্যালেন্স চেক */
-    if (!userData.balance || userData.balance < amount) {
-        alert("পর্যাপ্ত ব্যালেন্স নেই!");
-        return;
-    }
-
-    /* ব্যালেন্স আপডেট */
-    userData.balance = userData.balance - amount;
-
-    /* ট্রানজেকশন হিস্টরি তৈরি */
-    if (!userData.transactions) {
-        userData.transactions = [];
-    }
-
-    userData.transactions.push({
+    user.transactions.push({
         type: "Withdraw",
-        amount: amount,
-        date: new Date().toLocaleString()
+        amount,
+        time: new Date().toLocaleString()
     });
 
-    /* লোকালস্টোরেজে সেভ */
-    localStorage.setItem(currentPhone, JSON.stringify(userData));
-
-    alert("উত্তোলন সফল হয়েছে ✅");
-
-    /* ইনপুট ক্লিয়ার */
-    document.getElementById("withdrawAmount").value = "";
-    document.getElementById("withdrawPin").value = "";
-
-    /* হোম পেজে পাঠানো */
+    localStorage.setItem(phone, JSON.stringify(user));
     window.location.href = "home.html";
-}
+}   
