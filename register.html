@@ -2,51 +2,37 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
-
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="container">
+<div class="container">
+    <h2 class="page-title">রেজিস্টার</h2>
 
-        <h2 class="page-title">রেজিস্টার</h2>
-
-        <form id="registerForm">
-
-            <div class="input-group">
-                <input type="text" id="phone" placeholder="মোবাইল নম্বর" required>
-            </div>
-
-            <div class="input-group">
-                <input type="password" id="password" placeholder="পাসওয়ার্ড" required>
-            </div>
-
-            <div class="input-group">
-                <input type="password" id="confirmPassword" placeholder="কনফার্ম পাসওয়ার্ড" required>
-            </div>
-
-            <div class="input-group">
-                <input type="number" id="withdrawPin" placeholder="উত্তোলন পিন (৪ সংখ্যা)" required>
-            </div>
-
-            <div class="input-group">
-                <input type="text" id="inviteCode" placeholder="রেফার কোড">
-            </div>
-
-            <button type="submit" class="btn-primary">রেজিস্টার</button>
-
-        </form>
-
-        <div class="login-link">
-            <p>ইতিমধ্যে অ্যাকাউন্ট আছে?</p>
-            <a href="login.html">লগইন</a>
-        </div>
-
+    <div class="input-group">
+        <input type="text" id="phone" placeholder="মোবাইল নম্বর">
     </div>
 
-    <script src="register.js"></script>
+    <div class="input-group">
+        <input type="password" id="password" placeholder="পাসওয়ার্ড">
+    </div>
 
+    <div class="input-group">
+        <input type="password" id="confirmPassword" placeholder="কনফার্ম পাসওয়ার্ড">
+    </div>
+
+    <div class="input-group">
+        <input type="number" id="withdrawPin" placeholder="উইথড্র পিন (৪ সংখ্যা)">
+    </div>
+
+    <button onclick="registerUser()">রেজিস্টার</button>
+
+    <div class="login-link">
+        <a href="login.html">লগইন</a>
+    </div>
+</div>
+
+<script src="register.js"></script>
 </body>
 </html>
