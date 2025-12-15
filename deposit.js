@@ -1,16 +1,24 @@
-/* লগইন চেক */
+/* =========================
+   লগইন চেক
+========================= */
 if (localStorage.getItem("loggedIn") !== "true") {
     window.location.href = "login.html";
 }
 
+/* =========================
+   ইউজার লোড
+========================= */
 let currentPhone = localStorage.getItem("currentUser");
 let userData = JSON.parse(localStorage.getItem(currentPhone));
 
 if (!userData) {
-    alert("ইউজার পাওয়া যায়নি!");
+    alert("ইউজার পাওয়া যায়নি! আবার লগইন করুন।");
     window.location.href = "login.html";
 }
 
+/* =========================
+   Deposit Function
+========================= */
 function depositMoney() {
     let amount = parseInt(document.getElementById("depositAmount").value);
 
@@ -19,15 +27,15 @@ function depositMoney() {
         return;
     }
 
-    /* ব্যালেন্স না থাকলে 0 ধরবে */
+    /* ব্যালেন্স না থাকলে 0 সেট */
     if (!userData.balance) {
         userData.balance = 0;
     }
 
-    /* ব্যালেন্স যোগ */
+    /* ব্যালেন্সে টাকা যোগ */
     userData.balance += amount;
 
-    /* ট্রানজেকশন হিস্টরি */
+    /* ট্রানজেকশন হিস্টরি না থাকলে তৈরি */
     if (!userData.transactions) {
         userData.transactions = [];
     }
@@ -38,10 +46,11 @@ function depositMoney() {
         date: new Date().toLocaleString()
     });
 
-    /* সেভ */
+    /* লোকালস্টোরেজে সেভ */
     localStorage.setItem(currentPhone, JSON.stringify(userData));
 
-    alert("ডিপোজিট সফল ✅ টাকা ওয়ালেটে যোগ হয়েছে");
+    alert("ডিপোজিট সফল হয়েছে ✅\nটাকা ওয়ালেটে যোগ হয়েছে");
 
+    /* হোমে রিডাইরেক্ট */
     window.location.href = "home.html";
 }
