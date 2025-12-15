@@ -1,4 +1,3 @@
-/* লগইন চেক */
 if (localStorage.getItem("loggedIn") !== "true") {
     window.location.href = "login.html";
 }
@@ -6,26 +5,16 @@ if (localStorage.getItem("loggedIn") !== "true") {
 let currentPhone = localStorage.getItem("currentUser");
 let userData = JSON.parse(localStorage.getItem(currentPhone));
 
-if (!userData) {
-    alert("ইউজার পাওয়া যায়নি!");
-    window.location.href = "login.html";
-}
-
 function addMoney() {
-    let amount = parseInt(document.getElementById("depositAmount").value);
+    let amount = parseInt(document.getElementById("amount").value);
 
     if (!amount || amount <= 0) {
-        alert("সঠিক এমাউন্ট লিখুন!");
+        alert("সঠিক এমাউন্ট লিখুন");
         return;
-    }
-
-    if (!userData.balance) {
-        userData.balance = 0;
     }
 
     userData.balance += amount;
 
-    /* ট্রানজেকশন হিস্টরি */
     if (!userData.transactions) {
         userData.transactions = [];
     }
@@ -38,6 +27,6 @@ function addMoney() {
 
     localStorage.setItem(currentPhone, JSON.stringify(userData));
 
-    alert("ডিপোজিট সফল হয়েছে ✅");
+    alert("ডিপোজিট সফল ✅");
     window.location.href = "home.html";
 }
