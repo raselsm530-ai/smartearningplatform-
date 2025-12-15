@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <title>প্যাকেজসমূহ</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="home-header">
+    <h2>আমার প্যাকেজ</h2>
+    <p id="welcomeText"></p>
+</div>
+
+<div class="grid-menu">
+
+    <div class="menu-card" onclick="selectPackage('Starter', 300)">
+        <h4>Starter Package</h4>
+        <p>৳300</p>
+        <p>ডেইলি ইনকাম</p>
+    </div>
+
+    <div class="menu-card" onclick="selectPackage('Silver', 1000)">
+        <h4>Silver Package</h4>
+        <p>৳1000</p>
+        <p>বেশি ইনকাম</p>
+    </div>
+
+    <div class="menu-card" onclick="selectPackage('Gold', 3000)">
+        <h4>Gold Package</h4>
+        <p>৳3000</p>
+        <p>প্রিমিয়াম</p>
+    </div>
+
+    <div class="menu-card logout" onclick="logoutUser()">
+        <h4>লগআউট</h4>
+    </div>
+
+</div>
+
+<script src="packages.js"></script>
+</body>
+</html>
