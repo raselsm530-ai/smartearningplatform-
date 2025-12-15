@@ -1,13 +1,9 @@
- /* =========================
-   লগইন চেক
-========================= */
+/* লগইন চেক */
 if (localStorage.getItem("loggedIn") !== "true") {
     window.location.href = "login.html";
 }
 
-/* =========================
-   ইউজার লোড
-========================= */
+/* ইউজার লোড */
 let currentPhone = localStorage.getItem("currentUser");
 let userData = JSON.parse(localStorage.getItem(currentPhone));
 
@@ -16,9 +12,7 @@ if (!userData) {
     window.location.href = "login.html";
 }
 
-/* =========================
-   Withdraw Function
-========================= */
+/* Withdraw ফাংশন */
 function withdrawMoney() {
     let amount = parseInt(document.getElementById("withdrawAmount").value);
     let pin = document.getElementById("withdrawPin").value.trim();
@@ -43,8 +37,10 @@ function withdrawMoney() {
         return;
     }
 
+    /* ব্যালেন্স আপডেট */
     userData.balance -= amount;
 
+    /* ট্রানজেকশন হিস্টরি */
     if (!userData.transactions) {
         userData.transactions = [];
     }
@@ -58,9 +54,5 @@ function withdrawMoney() {
     localStorage.setItem(currentPhone, JSON.stringify(userData));
 
     alert("উত্তোলন সফল হয়েছে ✅");
-
-    document.getElementById("withdrawAmount").value = "";
-    document.getElementById("withdrawPin").value = "";
-
     window.location.href = "home.html";
 }
