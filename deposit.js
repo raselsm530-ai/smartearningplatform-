@@ -1,10 +1,10 @@
-/* লগইন চেক */
+// লগইন চেক
 if (localStorage.getItem("loggedIn") !== "true") {
     window.location.href = "login.html";
 }
 
-let currentPhone = localStorage.getItem("currentUser");
-let userData = JSON.parse(localStorage.getItem(currentPhone));
+let currentUser = localStorage.getItem("currentUser");
+let userData = JSON.parse(localStorage.getItem(currentUser));
 
 if (!userData) {
     alert("ইউজার পাওয়া যায়নি!");
@@ -16,45 +16,38 @@ function submitDeposit() {
     let trxId = document.getElementById("trxId").value.trim();
 
     if (!amount || amount <= 0) {
-        alert("সঠিক ডিপোজিট এমাউন্ট লিখুন!");
+        alert("সঠিক এমাউন্ট লিখুন");
         return;
     }
 
     if (trxId === "") {
-        alert("Transaction ID দিন!");
+        alert("Transaction ID দিন");
         return;
     }
 
-    // Pending deposit array
-    if (!userData.pendingDeposits) {
-        userData.pendingDeposits = [];
+    // ব্যালেন্স যোগ
+    if (!userData.balance) {
+        userData.balance = 0;
     }
 
-    userData.pendingDeposits.push({
-        amount: amount,
-        trxId: trxId,
-        number: "01797632229",
-        method: "Bkash/Nagad/Rocket",
-        status: "Pending",
-        date: new Date().toLocaleString()
-    });
+    userData.balance += amount;
 
-    // Transaction history
+    // ট্রানজেকশন হিস্টরি
     if (!userData.transactions) {
         userData.transactions = [];
     }
 
     userData.transactions.push({
-        type: "Deposit Request",
+        type: "Deposit",
         amount: amount,
         trxId: trxId,
-        status: "Pending",
+        number: "01797632229",
         date: new Date().toLocaleString()
     });
 
-    localStorage.setItem(currentPhone, JSON.stringify(userData));
+    localStorage.setItem(currentUser, JSON.stringify(userData));
 
-    alert("✅ ডিপোজিট রিকোয়েস্ট সফলভাবে সাবমিট হয়েছে\nঅ্যাডমিন কনফার্ম করার পর ব্যালেন্স যোগ হবে");
+    alert("✅ ডিপোজিট সফল!\nব্যালেন্সে টাকা যোগ হয়েছে");
 
     window.location.href = "home.html";
 }
