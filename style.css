@@ -103,7 +103,11 @@ button {
 }
 
 /* Deposit info */
-.deposit-info {
+.deposit-info h3 {
+    color: #000;
+    font-size: 22px;
+    font-weight: 700;
+}
     background: #f4f6ff;
     padding: 15px;
     border-radius: 15px;
