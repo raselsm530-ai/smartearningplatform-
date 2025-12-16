@@ -1,25 +1,28 @@
-html, body {
-    width: 100%;
-    overflow-x: hidden;
-}* ===== RESET ===== */
+/* ======================
+   RESET
+====================== */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* ===== GLOBAL ===== */
+/* ======================
+   GLOBAL
+====================== */
 html, body {
     width: 100%;
-    height: 100%;
-    font-family: "Poppins", sans-serif;
-    background: #eef3ff;
+    min-height: 100vh;
+    font-family: "Poppins", "Segoe UI", sans-serif;
     overflow-x: hidden;
 }
 
-/* ===== AUTH PAGES ===== */
+/* ======================
+   AUTH / FORM PAGES
+   (Login, Register, Deposit, Withdraw)
+====================== */
 .container {
-    width: 100%;
+    width: 90%;
     max-width: 420px;
     margin: 40px auto;
     background: #ffffff;
@@ -37,86 +40,11 @@ html, body {
 }
 
 .input-group {
-    margin-bottom: 14px;
-}
-
-.input-group input {
-    width: 100%;
-    padding: 13px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    font-size: 15px;
-}
-
-button {
-    width: 100%;
-    padding: 13px;
-    background: #3d5af1;
-    color: #fff;
-    font-size: 16px;
-    border: none;
-    border-radius: 10px;
-}
-
-/* ===== HOME ===== */
-.home-header {
-    background: linear-gradient(135deg, #3d5af1, #5a73ec);
-    padding: 35px 16px;
-    text-align: center;
-    color: #fff;
-    border-bottom-left-radius: 30px;
-    border-bottom-right-radius: 30px;
-}
-
-.balance-box {
-    width: 90%;
-    margin: -20px auto 15px;
-    background: #fff;
-    padding: 18px;
-    border-radius: 18px;
-    text-align: center;
-}
-
-.grid-menu {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 14px;
-    padding: 16px;
-}
-
-.menu-card {
-    background: #fff;
-    padding: 16px;
-    border-radius: 16px;
-    text-align: center;
-} * {
-    max-width: 100%;
-}/* ===== Common Container ===== */
-.container {
-    width: 90%;
-    max-width: 420px;
-    margin: 40px auto;
-    background: #ffffff;
-    padding: 25px;
-    border-radius: 20px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.10);
-}
-
-/* ===== Page Title ===== */
-.page-title {
-    text-align: center;
-    margin-bottom: 25px;
-    font-size: 26px;
-    font-weight: 700;
-    color: #333;
-}
-
-/* ===== Input Group ===== */
-.input-group {
     margin-bottom: 15px;
 }
 
-.input-group input {
+.input-group input,
+.input-group select {
     width: 100%;
     padding: 14px;
     border: 1px solid #ccc;
@@ -125,38 +53,31 @@ button {
     outline: none;
 }
 
-.input-group input:focus {
-    border-color: #e53935;
-    box-shadow: 0 0 6px rgba(229, 57, 53, 0.3);
+.input-group input:focus,
+.input-group select:focus {
+    border-color: #3d5af1;
+    box-shadow: 0 0 6px rgba(61, 90, 241, 0.3);
 }
 
-/* ===== Withdraw Button ===== */
-.btn-primary {
+button {
     width: 100%;
     padding: 14px;
-    background: #e53935;
-    color: white;
-    font-size: 18px;
+    background: #3d5af1;
+    color: #fff;
+    font-size: 16px;
     border: none;
     border-radius: 12px;
     cursor: pointer;
 }
 
-.btn-primary:hover {
-    background: #c62828;
+button:hover {
+    opacity: 0.9;
 }
 
-/* ===== Back Link ===== */
-.login-link {
-    text-align: center;
-    margin-top: 18px;
-}
-
-.login-link a {
-    color: #3d5af1;
-    text-decoration: none;
-    font-weight: 600;
-}.deposit-info {
+/* ======================
+   DEPOSIT INFO BOX
+====================== */
+.deposit-info {
     background: #f4f6ff;
     padding: 15px;
     border-radius: 15px;
@@ -165,41 +86,95 @@ button {
 }
 
 .deposit-info h3 {
-    margin: 5px 0;
+    margin: 6px 0;
+    font-size: 20px;
     color: #3d5af1;
-}body {
-    margin: 0;
-    font-family: 'Segoe UI', sans-serif;
+}
+
+/* ======================
+   HOME BACKGROUND
+====================== */
+body.home {
     background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+/* ======================
+   HOME HEADER
+====================== */
+.home-header {
+    background: linear-gradient(135deg, #4facfe, #00c6ff);
+    padding: 35px 16px;
+    text-align: center;
+    color: #fff;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+}
+
+/* ======================
+   HOME MAIN WRAPPER
+====================== */
+.home-wrapper {
+    background: #f5f7ff;
+    border-radius: 30px 30px 0 0;
+    margin-top: -20px;
+    padding: 20px;
     min-height: 100vh;
 }
 
-/* হোমের মূল container */
-.container {
-    background: #f5f7ff;
-    border-radius: 25px 25px 0 0;
-    margin-top: 80px;
+/* ======================
+   BALANCE BOX
+====================== */
+.balance-box {
+    width: 100%;
+    background: #ffffff;
     padding: 20px;
-}
-
-/* উপরের নীল অংশ */
-.header {
-    background: linear-gradient(135deg, #4facfe, #00c6ff);
-    padding: 25px;
-    color: white;
-    border-radius: 0 0 30px 30px;
-    text-align: center;
-}
-
-/* কার্ডগুলো */
-.menu-card {
-    background: white;
     border-radius: 20px;
-    padding: 20px;
+    text-align: center;
+    margin-bottom: 20px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+.balance-box h3 {
+    font-size: 18px;
+    margin-bottom: 8px;
+}
+
+.balance-box p {
+    font-size: 22px;
+    font-weight: 700;
+}
+
+/* ======================
+   GRID MENU
+====================== */
+.grid-menu {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+/* ======================
+   MENU CARD
+====================== */
+.menu-card {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 22px;
+    text-align: center;
     box-shadow: 0 10px 25px rgba(0,0,0,0.08);
     transition: 0.3s;
 }
 
 .menu-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-4px);
+}
+
+.menu-card h4 {
+    font-size: 18px;
+    margin-bottom: 6px;
+}
+
+.menu-card p {
+    font-size: 14px;
+    color: #555;
 }
