@@ -1,47 +1,53 @@
-// Fixed Deposit Numbers
+// Fixed numbers for each method
 const fixedNumbers = {
-    "bkash": "01797632229",
-    "nagad": "01797632229",
-    "rocket": "01797632229"
+    "বিকাশ": "01797632229",
+    "নগদ": "01797632229",
+    "রকেট": "01797632229"
 };
 
-// Update number when method selected
+// Update shown number based on selected method
 function updateNumber() {
     const method = document.getElementById("paymentMethod").value;
-    const paymentNumber = document.getElementById("paymentNumber");
+    const numberBox = document.getElementById("paymentNumber");
 
     if (!method) {
-        paymentNumber.textContent = "মেথড নির্বাচন করুন";
+        numberBox.textContent = "মেথড নির্বাচন করুন";
         return;
     }
 
-    paymentNumber.textContent = `${method}: ${fixedNumbers[method]}`;
+    // Use the mapping
+    const num = fixedNumbers[method];
+    if (num) {
+        numberBox.textContent = method + ": " + num;
+    } else {
+        numberBox.textContent = "নাম্বার নেই";
+    }
 }
 
-// Deposit request
+// Submit deposit request
 function depositMoney() {
     let amount = document.getElementById("depositAmount").value;
     let method = document.getElementById("paymentMethod").value;
 
     if (!amount || !method) {
-        alert("পরিমাণ ও মেথড নির্বাচন করুন!");
+        alert("পরিমাণ ও পেমেন্ট মেথড নির্বাচন করুন!");
         return;
     }
 
     let deposits = JSON.parse(localStorage.getItem("pendingDeposits")) || [];
 
     deposits.push({
-        user: localStorage.getItem("username"),
-        amount,
-        method,
+        user: localStorage.getItem("currentUser") || "", 
+        amount: amount,
+        method: method,
         number: fixedNumbers[method],
         time: new Date().toLocaleString()
     });
 
     localStorage.setItem("pendingDeposits", JSON.stringify(deposits));
 
-    alert("ডিপোজিট রিকোয়েস্ট পাঠানো হয়েছে!");
-
+    alert("✅ ডিপোজিট রিকোয়েস্ট পাঠানো হয়েছে!");
+    
     document.getElementById("depositAmount").value = "";
     document.getElementById("paymentMethod").value = "";
     document.getElementById("paymentNumber").textContent = "মেথড নির্বাচন করুন";
