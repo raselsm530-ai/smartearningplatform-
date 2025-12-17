@@ -2,19 +2,20 @@ function updateNumber() {
     const method = document.getElementById("paymentMethod").value;
     const numberBox = document.getElementById("paymentNumber");
 
-    if (method === "বিকাশ") {
-        numberBox.innerText = "📱 বিকাশ নাম্বার: 01797632229";
-    } 
-    else if (method === "নগদ") {
-        numberBox.innerText = "📱 নগদ নাম্বার: 01797632229";
-    } 
-    else if (method === "রকেট") {
-        numberBox.innerText = "📱 রকেট নাম্বার: 01797632229";
-    } 
+    if (method === "bkash") {
+        numberBox.innerText = "📱 বিকাশ নম্বর: 01797632229";
+    }
+    else if (method === "nagad") {
+        numberBox.innerText = "📱 নগদ নম্বর: 01797632229";
+    }
+    else if (method === "rocket") {
+        numberBox.innerText = "📱 রকেট নম্বর: 01797632229";
+    }
     else {
         numberBox.innerText = "মেথড নির্বাচন করুন";
     }
 }
+
 
 function depositMoney() {
     let amount = document.getElementById("depositAmount").value;
@@ -39,7 +40,7 @@ function depositMoney() {
 
     localStorage.setItem("deposits", JSON.stringify(deposits));
 
-    alert("✅ ডিপোজিট রিকোয়েস্ট পাঠানো হয়েছে\n(Admin যাচাই করবে)");
+    alert("📨 ডিপোজিট রিকুয়েস্ট পাঠানো হয়েছে");
 
     document.getElementById("depositAmount").value = "";
     document.getElementById("paymentMethod").value = "";
