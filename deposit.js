@@ -1,53 +1,27 @@
-// লগইন চেক
-if (localStorage.getItem("loggedIn") !== "true") {
-    window.location.href = "login.html";
-}
+function depositMoney() {
+    let amount = document.getElementById("depositAmount").value;
+    let method = document.getElementById("paymentMethod").value;
+    let user = localStorage.getItem("currentUser");
 
-let currentUser = localStorage.getItem("currentUser");
-let userData = JSON.parse(localStorage.getItem(currentUser));
-
-if (!userData) {
-    alert("ইউজার পাওয়া যায়নি!");
-    window.location.href = "login.html";
-}
-
-function submitDeposit() {
-    let amount = parseInt(document.getElementById("depositAmount").value);
-    let trxId = document.getElementById("trxId").value.trim();
-
-    if (!amount || amount <= 0) {
-        alert("সঠিক এমাউন্ট লিখুন");
+    if (!amount || amount <= 0 || !method) {
+        alert("সঠিক তথ্য দিন");
         return;
     }
 
-    if (trxId === "") {
-        alert("Transaction ID দিন");
-        return;
-    }
+    let deposits = JSON.parse(localStorage.getItem("pendingDeposits")) || [];
 
-    // ব্যালেন্স যোগ
-    if (!userData.balance) {
-        userData.balance = 0;
-    }
-
-    userData.balance += amount;
-
-    // ট্রানজেকশন হিস্টরি
-    if (!userData.transactions) {
-        userData.transactions = [];
-    }
-
-    userData.transactions.push({
-        type: "Deposit",
-        amount: amount,
-        trxId: trxId,
-        number: "01797632229",
-        date: new Date().toLocaleString()
+    deposits.push({
+        user: user,
+        amount: Number(amount),
+        method: method,
+        time: new Date().toLocaleString(),
+        status: "pending"
     });
 
-    localStorage.setItem(currentUser, JSON.stringify(userData));
+    localStorage.setItem("pendingDeposits", JSON.stringify(deposits));
 
-    alert("✅ ডিপোজিট সফল!\nব্যালেন্সে টাকা যোগ হয়েছে");
+    alert("ডিপোজিট রিকুয়েস্ট পাঠানো হয়েছে\nAdmin approve করলে ব্যালেন্স যোগ হবে");
 
-    window.location.href = "home.html";
+    document.getElementById("depositAmount").value = "";
+    document.getElementById("paymentMethod").value = "";
 }
