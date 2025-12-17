@@ -114,4 +114,21 @@ button {
     font-weight: 700;
     color: #1e40af;
     margin: 8px 0;
+}/* ===== CARD PAGE LAYOUT (Deposit / History) ===== */
+.card-page {
+    min-height: 100vh;
+    background: #eef3ff;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 40px;
+}
+
+.card-page .container {
+    width: 100%;
+    max-width: 420px;
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
 }
