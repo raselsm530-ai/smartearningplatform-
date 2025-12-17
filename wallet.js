@@ -1,30 +1,27 @@
-// Fixed numbers for each method
+// Fixed Deposit Numbers
 const fixedNumbers = {
     "বিকাশ": "01797632229",
     "নগদ": "01797632229",
     "রকেট": "01797632229"
 };
 
-// Update shown number based on selected method
 function updateNumber() {
     const method = document.getElementById("paymentMethod").value;
-    const numberBox = document.getElementById("paymentNumber");
+    const paymentNumber = document.getElementById("paymentNumber");
 
     if (!method) {
-        numberBox.textContent = "মেথড নির্বাচন করুন";
+        paymentNumber.textContent = "মেথড নির্বাচন করুন";
         return;
     }
 
-    // Use the mapping
     const num = fixedNumbers[method];
     if (num) {
-        numberBox.textContent = method + ": " + num;
+        paymentNumber.textContent = method + ": " + num;
     } else {
-        numberBox.textContent = "নাম্বার নেই";
+        paymentNumber.textContent = "নাম্বার নেই";
     }
 }
 
-// Submit deposit request
 function depositMoney() {
     let amount = document.getElementById("depositAmount").value;
     let method = document.getElementById("paymentMethod").value;
@@ -37,17 +34,17 @@ function depositMoney() {
     let deposits = JSON.parse(localStorage.getItem("pendingDeposits")) || [];
 
     deposits.push({
-        user: localStorage.getItem("currentUser") || "", 
-        amount: amount,
-        method: method,
+        user: localStorage.getItem("currentUser") || "",
+        amount,
+        method,
         number: fixedNumbers[method],
         time: new Date().toLocaleString()
     });
 
     localStorage.setItem("pendingDeposits", JSON.stringify(deposits));
 
-    alert("✅ ডিপোজিট রিকোয়েস্ট পাঠানো হয়েছে!");
-    
+    alert("ডিপোজিট রিকোয়েস্ট পাঠানো হয়েছে!");
+
     document.getElementById("depositAmount").value = "";
     document.getElementById("paymentMethod").value = "";
     document.getElementById("paymentNumber").textContent = "মেথড নির্বাচন করুন";
