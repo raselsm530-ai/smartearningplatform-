@@ -1,44 +1,49 @@
-// ⬇ পেমেন্ট নাম্বার আপডেট
-function updateNumber() {
-    let method = document.getElementById("paymentMethod").value;
-    let numberBox = document.getElementById("paymentNumber");
+// Fixed Deposit Numbers
+const fixedNumbers = {
+    "Bkash": "01797632229",
+    "Nagad": "01797632229",
+    "Rocket": "01797632229"
+};
 
-    if (method === "Bkash") {
-        numberBox.innerHTML = "বিকাশ: 01797632229";
-    } else if (method === "Nagad") {
-        numberBox.innerHTML = "নগদ: 01797632229";
-    } else if (method === "Rocket") {
-        numberBox.innerHTML = "রকেট: 01797632229";
-    } else {
-        numberBox.innerHTML = "মেথড নির্বাচন করুন";
+// Update number when method selected
+function updateNumber() {
+    const method = document.getElementById("paymentMethod").value;
+    const paymentNumber = document.getElementById("paymentNumber");
+
+    if (!method) {
+        paymentNumber.textContent = "মেথড নির্বাচন করুন";
+        return;
     }
+
+    paymentNumber.textContent = `${method}: ${fixedNumbers[method]}`;
 }
 
-
-// ⬇ ডিপোজিট সাবমিট সিস্টেম
+// Deposit request
 function depositMoney() {
     let amount = document.getElementById("depositAmount").value;
     let method = document.getElementById("paymentMethod").value;
 
     if (!amount || !method) {
-        alert("সব তথ্য পূরণ করুন");
+        alert("পরিমাণ ও মেথড নির্বাচন করুন!");
         return;
     }
 
-    let deposits = JSON.parse(localStorage.getItem("deposits")) || [];
+    // Pending deposit store
+    let deposits = JSON.parse(localStorage.getItem("pendingDeposits")) || [];
 
     deposits.push({
-        amount: Number(amount),
+        user: localStorage.getItem("username"),
+        amount: amount,
         method: method,
-        status: "Pending",
+        number: fixedNumbers[method],
         time: new Date().toLocaleString()
     });
 
-    localStorage.setItem("deposits", JSON.stringify(deposits));
+    localStorage.setItem("pendingDeposits", JSON.stringify(deposits));
 
-    alert("✔ ডিপোজিট রিকোয়েস্ট পাঠানো হয়েছে\n➤ Admin যাচাই করবে");
+    alert("ডিপোজিট রিকোয়েস্ট পাঠানো হয়েছে!");
 
     document.getElementById("depositAmount").value = "";
     document.getElementById("paymentMethod").value = "";
-    updateNumber();
+    document.getElementById("paymentNumber").textContent = "মেথড নির্বাচন করুন";
 }
