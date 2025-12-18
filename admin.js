@@ -1,46 +1,64 @@
-let list = document.getElementById("depositList");
+// লগইন চেক
+if (localStorage.getItem("adminLoggedIn") !== "true") {
+    window.location.href = "admin_login.html";
+}
 
-let deposits = JSON.parse(localStorage.getItem("pendingDeposits")) || [];
+// pending deposits লোড
+let pendingDeposits = JSON.parse(localStorage.getItem("pendingDeposits")) || [];
 
-list.innerHTML = "";
+// balances লোড
+let balances = JSON.parse(localStorage.getItem("balances")) || {};
 
-deposits.forEach((d, i) => {
-    if (d.status === "pending") {
+// pending deposit দেখানো
+function loadDeposits() {
+    let container = document.getElementById("pendingDeposits");
+
+    container.innerHTML = "";
+
+    if (pendingDeposits.length === 0) {
+        container.innerHTML = "<p>No pending deposits!</p>";
+        return;
+    }
+
+    pendingDeposits.forEach((dep, index) => {
         let div = document.createElement("div");
-        div.className = "info-box";
+        div.className = "deposit-card";
 
         div.innerHTML = `
-            <p>User: ${d.user}</p>
-            <p>Amount: ${d.amount} ৳</p>
-            <p>Method: ${d.method}</p>
-            <p>Date: ${d.date}</p>
-            <button onclick="approve(${i})">Approve</button>
+            <p>User: ${dep.user}</p>
+            <p>Amount: ${dep.amount} ৳</p>
+            <p>Method: ${dep.method}</p>
+            <p>Date: ${dep.date}</p>
+            <button onclick="approveDeposit(${index})">Approve</button>
         `;
 
-        list.appendChild(div);
-    }
-});
+        container.appendChild(div);
+    });
+}
 
-function approve(index) {
-    let d = deposits[index];
+loadDeposits();
 
-    // all users
-    let users = JSON.parse(localStorage.getItem("users")) || [];
+// Approve Deposit
+function approveDeposit(index) {
+    let deposit = pendingDeposits[index];
 
-    // find user index
-    let userIndex = users.findIndex(u => u.phone === d.user);
-
-    if (userIndex !== -1) {
-        users[userIndex].balance = Number(users[userIndex].balance) + Number(d.amount);
+    if (!balances[deposit.user]) {
+        balances[deposit.user] = 0;
     }
 
-    // save updated users
-    localStorage.setItem("users", JSON.stringify(users));
+    balances[deposit.user] += deposit.amount;
 
-    // update deposit status
-    deposits[index].status = "approved";
-    localStorage.setItem("pendingDeposits", JSON.stringify(deposits));
+    pendingDeposits.splice(index, 1);
+
+    localStorage.setItem("balances", JSON.stringify(balances));
+    localStorage.setItem("pendingDeposits", JSON.stringify(pendingDeposits));
 
     alert("Deposit Approved!");
-    location.reload();
+    loadDeposits();
+}
+
+// Logout
+function adminLogout() {
+    localStorage.removeItem("adminLoggedIn");
+    window.location.href = "admin_login.html";
 }
