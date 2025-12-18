@@ -1,54 +1,42 @@
-function loadDeposits() {
-    let deposits = JSON.parse(localStorage.getItem("deposits")) || [];
-    let pending = deposits.filter(d => d.status === "Pending");
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <title>Pending Deposits</title>
 
-    let html = "";
+    <style>
+        body {
+            background: #1e1e1e;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
 
-    if (pending.length === 0) {
-        document.getElementById("depositList").innerHTML = "<p>No Pending Deposits</p>";
-        return;
-    }
+        .card {
+            border: 1px solid #555;
+            padding: 12px;
+            margin: 10px;
+            border-radius: 6px;
+            background: #2c2c2c;
+        }
 
-    pending.forEach((d, i) => {
-        html += `
-        <div style="padding:10px;border:1px solid #999;margin:10px;color:white;">
-            <p>📌 ইউজার: ${d.user}</p>
-            <p>💰 Amount: ${d.amount}৳</p>
-            <p>💳 Method: ${d.method}</p>
-            <p>⏱ Date: ${d.time}</p>
+        button {
+            padding: 5px 12px;
+            border: none;
+            background: green;
+            color: white;
+            border-radius: 5px;
+        }
+    </style>
+</head>
 
-            <button onclick="approveDeposit('${d.user}', ${d.amount}, ${i})" style="background:green;color:white;padding:5px 10px;">
-                Approve
-            </button>
-        </div>`;
-    });
+<body>
 
-    document.getElementById("depositList").innerHTML = html;
-}
+<h2>Pending Deposit Requests</h2>
 
-function approveDeposit(userPhone, amount, index) {
-    let deposits = JSON.parse(localStorage.getItem("deposits")) || [];
-    let users = JSON.parse(localStorage.getItem("users")) || [];
+<div id="depositList"></div>
 
-    // deposit index খুঁজে বের করা
-    let depIndex = deposits.findIndex(d => d.user === userPhone && d.amount === amount && d.status === "Pending");
+<script src="admin_deposits.js"></script>
 
-    if (depIndex !== -1) {
-        deposits[depIndex].status = "Approved";
-    }
-
-    let user = users.find(u => u.phone === userPhone);
-
-    if (user) {
-        user.balance = (user.balance || 0) + Number(amount);
-    }
-
-    localStorage.setItem("deposits", JSON.stringify(deposits));
-    localStorage.setItem("users", JSON.stringify(users));
-
-    alert("Deposit Approved!");
-    loadDeposits();
-}
-
-// First time load
-loadDeposits();
+</body>
+</html>
