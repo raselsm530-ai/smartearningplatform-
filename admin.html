@@ -30,6 +30,7 @@
             border: none;
             background: #4e73df;
             color: white;
+            cursor: pointer;
         }
 
         .logout-btn {
@@ -43,7 +44,10 @@
 <div class="admin-container">
     <h2>Admin Dashboard</h2>
 
-    <button onclick="location.href='pending.html'">Pending Deposits</button>
+    <!-- Pending Deposit Page -->
+    <button onclick="location.href='pending_deposits.html'">Pending Deposits</button>
+
+    <!-- Logout -->
     <button class="logout-btn" onclick="adminLogout()">Logout</button>
 </div>
 
