@@ -13,7 +13,7 @@ function loadDeposits() {
             <p>📌 ইউজার: ${d.user}</p>
             <p>💰 Amount: ${d.amount}৳</p>
             <p>💳 Method: ${d.method}</p>
-            <p>⏱ Date: ${d.time}</p>
+            <p>⏱ Date: ${d.time || d.date}</p>
 
             <button class="approve" onclick="approveDeposit(${i})">Approve</button>
         </div>`;
@@ -28,18 +28,20 @@ function approveDeposit(index) {
 
     let dep = deposits[index];
 
+    // যদি ইউজারের ব্যালেন্স না থাকে → 0
     if (!balances[dep.user]) {
         balances[dep.user] = 0;
     }
 
-    balances[dep.user] += dep.amount;
+    balances[dep.user] += Number(dep.amount);
 
+    // পেন্ডিং থেকে রিমুভ
     deposits.splice(index, 1);
 
     localStorage.setItem("balances", JSON.stringify(balances));
     localStorage.setItem("pendingDeposits", JSON.stringify(deposits));
 
-    alert("Deposit Approved!");
+    alert("Deposit Approved Successfully!");
     loadDeposits();
 }
 
