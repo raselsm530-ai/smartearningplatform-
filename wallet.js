@@ -31,17 +31,22 @@ function depositMoney() {
         return;
     }
 
+    // এখানে ইউজার নাম্বার নেওয়া হচ্ছে
+    const user = localStorage.getItem("loggedInUser");
+
     const deposit = {
-        amount,
+        user: user,            // user show হবে admin panel এ
+        amount: Number(amount),
         method,
-        status: "Pending",
+        status: "pending",     // lowercase to match admin.js
         date: new Date().toLocaleString()
     };
 
-    let allDeposits = JSON.parse(localStorage.getItem("userDeposits")) || [];
+    // pendingDeposits এ সেভ হবে
+    let allDeposits = JSON.parse(localStorage.getItem("pendingDeposits")) || [];
     allDeposits.push(deposit);
 
-    localStorage.setItem("userDeposits", JSON.stringify(allDeposits));
+    localStorage.setItem("pendingDeposits", JSON.stringify(allDeposits));
 
     alert("ডিপোজিট রিকোয়েস্ট পাঠানো হয়েছে!\nস্ট্যাটাস: Pending");
 
