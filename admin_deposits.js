@@ -10,13 +10,13 @@ function loadDeposits() {
     deposits.forEach((d, i) => {
         html += `
         <div class="box">
-            <p>📌 ইউজার: ${d.user}</p>
+            <p>🔑 ইউজার: ${d.user}</p>
             <p>💰 Amount: ${d.amount}৳</p>
             <p>💳 Method: ${d.method}</p>
             <p>⏱ Date: ${d.time}</p>
-
             <button class="approve" onclick="approveDeposit(${i})">Approve</button>
-        </div>`;
+        </div>
+        `;
     });
 
     document.getElementById("depositList").innerHTML = html;
@@ -24,19 +24,22 @@ function loadDeposits() {
 
 function approveDeposit(index) {
     let deposits = JSON.parse(localStorage.getItem("pendingDeposits")) || [];
-    let users = JSON.parse(localStorage.getItem("users")) || [];
+    let balances = JSON.parse(localStorage.getItem("balances")) || {};
 
     let dep = deposits[index];
 
-    let userIndex = users.findIndex(u => u.phone === dep.user);
+    // user কে সঠিক ভাবে ধরো
+    let user = dep.user; 
 
-    if (userIndex !== -1) {
-        users[userIndex].balance = Number(users[userIndex].balance || 0) + Number(dep.amount);
+    if (!balances[user]) {
+        balances[user] = 0;
     }
+
+    balances[user] += Number(dep.amount);
 
     deposits.splice(index, 1);
 
-    localStorage.setItem("users", JSON.stringify(users));
+    localStorage.setItem("balances", JSON.stringify(balances));
     localStorage.setItem("pendingDeposits", JSON.stringify(deposits));
 
     alert("Deposit Approved Successfully!");
