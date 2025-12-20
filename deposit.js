@@ -7,9 +7,9 @@ const fixedNumbers = {
 function depositMoney() {
     const amount = document.getElementById("depositAmount").value;
     const method = document.getElementById("paymentMethod").value;
-    const trx = document.getElementById("trxid").value;
+    const trxid = document.getElementById("trxid").value;
 
-    if (!amount || !method || !trx) {
+    if (!amount || !method || !trxid) {
         alert("সব তথ্য দিন");
         return;
     }
@@ -20,7 +20,7 @@ function depositMoney() {
         user,
         amount: Number(amount),
         method,
-        trx,
+        trxid, // FIXED: trx → trxid
         status: "pending",
         date: new Date().toLocaleString()
     };
