@@ -27,25 +27,22 @@ function approveDeposit(index) {
     let pending = JSON.parse(localStorage.getItem("pendingDeposits")) || [];
     const deposit = pending[index];
 
-    // get users list
+    // balance update
     let users = JSON.parse(localStorage.getItem("users")) || [];
 
-    // find user using phone number
     let userIndex = users.findIndex(u => u.phone === deposit.user);
 
     if (userIndex !== -1) {
-        // update balance
         users[userIndex].balance = Number(users[userIndex].balance || 0) + Number(deposit.amount);
     }
 
-    // save updated user list
     localStorage.setItem("users", JSON.stringify(users));
 
-    // remove pending deposit
+    // remove pending
     pending.splice(index, 1);
     localStorage.setItem("pendingDeposits", JSON.stringify(pending));
 
-    alert("Deposit Approved & Balance Updated Successfully!");
+    alert("Deposit Approved + Balance Updated!");
     loadPendingDeposits();
 }
 
