@@ -13,7 +13,7 @@ function loadDeposits() {
             <p>📌 ইউজার: ${d.user}</p>
             <p>💰 Amount: ${d.amount}৳</p>
             <p>💳 Method: ${d.method}</p>
-            <p>⏱ Date: ${d.time || d.date}</p>
+            <p>⏱ Date: ${d.time}</p>
 
             <button class="approve" onclick="approveDeposit(${i})">Approve</button>
         </div>`;
@@ -28,23 +28,18 @@ function approveDeposit(index) {
 
     let dep = deposits[index];
 
-    // find user by phone number
     let userIndex = users.findIndex(u => u.phone === dep.user);
 
     if (userIndex !== -1) {
         users[userIndex].balance = Number(users[userIndex].balance || 0) + Number(dep.amount);
-    } else {
-        alert("User Not Found! ❌");
-        return;
     }
 
-    // remove from pending deposits
     deposits.splice(index, 1);
 
     localStorage.setItem("users", JSON.stringify(users));
     localStorage.setItem("pendingDeposits", JSON.stringify(deposits));
 
-    alert("Deposit Approved Successfully! ✔");
+    alert("Deposit Approved Successfully!");
     loadDeposits();
 }
 
