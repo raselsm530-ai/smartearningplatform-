@@ -20,7 +20,7 @@ function depositMoney() {
         user: user,
         amount: Number(amount),
         method: method,
-        trxid: trxid,
+        trxid: trxid,    // FIXED
         status: "pending",
         date: new Date().toLocaleString()
     };
@@ -30,7 +30,7 @@ function depositMoney() {
 
     localStorage.setItem("pendingDeposits", JSON.stringify(list));
 
-    alert("পেন্ডিং লিস্টে যোগ হয়েছে");
+    alert("ডিপোজিট রিকোয়েস্ট পাঠানো হয়েছে (Pending)");
 
     document.getElementById("depositAmount").value = "";
     document.getElementById("paymentMethod").value = "";
