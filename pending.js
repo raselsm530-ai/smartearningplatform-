@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let deposits = JSON.parse(localStorage.getItem("pendingDeposits") || "[]");
 
     if (deposits.length === 0) {
-        pendingList.innerHTML = "<p>No Pending Deposits</p>";
+        pendingList.innerHTML = "<p>কোনো Pending Deposit নেই</p>";
         return;
     }
 
@@ -13,8 +13,8 @@ document.addEventListener("DOMContentLoaded", () => {
         box.innerHTML = `
             <p><strong>User:</strong> ${item.user}</p>
             <p><strong>Amount:</strong> ${item.amount}</p>
-            <button class="approve" onclick="approve(${index})">Approve</button>
-            <button class="reject" onclick="reject(${index})">Reject</button>
+            <button onclick="approve(${index})">Approve</button>
+            <button onclick="reject(${index})">Reject</button>
         `;
         pendingList.appendChild(box);
     });
@@ -38,7 +38,7 @@ function approve(i) {
     localStorage.setItem("users", JSON.stringify(users));
     localStorage.setItem("pendingDeposits", JSON.stringify(deposits));
 
-    alert("Deposit Approved Successfully!");
+    alert("Approved!");
     location.reload();
 }
 
@@ -49,6 +49,6 @@ function reject(i) {
 
     localStorage.setItem("pendingDeposits", JSON.stringify(deposits));
 
-    alert("Deposit Rejected!");
+    alert("Rejected!");
     location.reload();
 }
