@@ -1,54 +1,38 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const pendingList = document.getElementById("pendingList");
-    let deposits = JSON.parse(localStorage.getItem("pendingDeposits") || "[]");
+window.onload = function () {
+    let pending = JSON.parse(localStorage.getItem("pendingDeposits")) || [];
+    const container = document.getElementById("pendingList");
 
-    if (deposits.length === 0) {
-        pendingList.innerHTML = "<p>কোনো Pending Deposit নেই</p>";
-        return;
-    }
+    container.innerHTML = "";
 
-    deposits.forEach((item, index) => {
-        const box = document.createElement("div");
-        box.classList.add("deposit-box");
-        box.innerHTML = `
-            <p><strong>User:</strong> ${item.user}</p>
-            <p><strong>Amount:</strong> ${item.amount}</p>
-            <button onclick="approve(${index})">Approve</button>
-            <button onclick="reject(${index})">Reject</button>
+    pending.forEach((d, index) => {
+        container.innerHTML += `
+        <div class="pending-card">
+            <p>📱 ইউজার: ${d.user}</p>
+            <p>💰 Amount: ${d.amount} ৳</p>
+            <p>🏦 Method: ${d.method}</p>
+            <p>📝 TrxID: ${d.trx}</p>
+            <p>⏱ Date: ${d.date}</p>
+
+            <button onclick="approveDeposit(${index})">Approve</button>
+        </div>
         `;
-        pendingList.appendChild(box);
     });
-});
+};
 
+function approveDeposit(index) {
+    let pending = JSON.parse(localStorage.getItem("pendingDeposits")) || [];
+    let deposits = pending[index];
 
-function approve(i) {
-    let deposits = JSON.parse(localStorage.getItem("pendingDeposits") || "[]");
-    let users = JSON.parse(localStorage.getItem("users") || "[]");
+    let balances = JSON.parse(localStorage.getItem("balances")) || {};
 
-    const dep = deposits[i];
+    balances[deposits.user] = (balances[deposits.user] || 0) + deposits.amount;
 
-    let user = users.find(u => u.phone === dep.user);
+    localStorage.setItem("balances", JSON.stringify(balances));
 
-    if (user) {
-        user.balance = Number(user.balance) + Number(dep.amount);
-    }
+    pending.splice(index, 1);
+    localStorage.setItem("pendingDeposits", JSON.stringify(pending));
 
-    deposits.splice(i, 1);
+    alert("Approved Successfully!");
 
-    localStorage.setItem("users", JSON.stringify(users));
-    localStorage.setItem("pendingDeposits", JSON.stringify(deposits));
-
-    alert("Approved!");
-    location.reload();
-}
-
-function reject(i) {
-    let deposits = JSON.parse(localStorage.getItem("pendingDeposits") || "[]");
-
-    deposits.splice(i, 1);
-
-    localStorage.setItem("pendingDeposits", JSON.stringify(deposits));
-
-    alert("Rejected!");
     location.reload();
 }
