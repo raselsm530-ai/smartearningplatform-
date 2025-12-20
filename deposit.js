@@ -20,7 +20,7 @@ function depositMoney() {
         user: user,
         amount: Number(amount),
         method: method,
-        trxid: trxid,   // ← FIXED
+        trxid: trxid,   // ← THIS FIXES THE ISSUE
         status: "pending",
         date: new Date().toLocaleString()
     };
