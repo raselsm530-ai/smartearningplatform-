@@ -18,11 +18,11 @@
     </div>
 
     <div class="input-group">
-        <input type="number" id="amount" placeholder="এমাউন্ট লিখুন">
+        <input type="number" id="depositAmount" placeholder="এমাউন্ট লিখুন">
     </div>
 
     <div class="input-group">
-        <select id="method">
+        <select id="paymentMethod">
             <option value="">পেমেন্ট মেথড নির্বাচন করুন</option>
             <option value="Bkash">Bkash</option>
             <option value="Nagad">Nagad</option>
@@ -34,9 +34,11 @@
         <input type="text" id="trxid" placeholder="Transaction ID (TrxID)">
     </div>
 
-    <button onclick="submitDeposit()">ডিপোজিট রিকোয়েস্ট পাঠান</button>
+    <button onclick="depositMoney()">ডিপোজিট রিকোয়েস্ট পাঠান</button>
 </div>
 
-<script src="wallet.js"></script>
+<!-- সবচেয়ে গুরুত্বপূর্ণ -->
+<script src="deposit.js"></script>
+
 </body>
 </html>
