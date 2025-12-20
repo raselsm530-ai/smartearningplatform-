@@ -24,24 +24,27 @@ function loadDeposits() {
 
 function approveDeposit(index) {
     let deposits = JSON.parse(localStorage.getItem("pendingDeposits")) || [];
-    let balances = JSON.parse(localStorage.getItem("balances")) || {};
+    let users = JSON.parse(localStorage.getItem("users")) || [];
 
     let dep = deposits[index];
 
-    // যদি ইউজারের ব্যালেন্স না থাকে → 0
-    if (!balances[dep.user]) {
-        balances[dep.user] = 0;
+    // find user by phone number
+    let userIndex = users.findIndex(u => u.phone === dep.user);
+
+    if (userIndex !== -1) {
+        users[userIndex].balance = Number(users[userIndex].balance || 0) + Number(dep.amount);
+    } else {
+        alert("User Not Found! ❌");
+        return;
     }
 
-    balances[dep.user] += Number(dep.amount);
-
-    // পেন্ডিং থেকে রিমুভ
+    // remove from pending deposits
     deposits.splice(index, 1);
 
-    localStorage.setItem("balances", JSON.stringify(balances));
+    localStorage.setItem("users", JSON.stringify(users));
     localStorage.setItem("pendingDeposits", JSON.stringify(deposits));
 
-    alert("Deposit Approved Successfully!");
+    alert("Deposit Approved Successfully! ✔");
     loadDeposits();
 }
 
