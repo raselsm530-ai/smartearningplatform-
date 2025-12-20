@@ -33,7 +33,8 @@ document.getElementById("registerForm").addEventListener("submit", function (e) 
         phone,
         password,
         withdrawPin,
-        refCode: refCode || "NO-REF"
+        refCode: refCode || "NO-REF",
+        balance: 0  // 🟢 default balance added
     });
 
     localStorage.setItem("users", JSON.stringify(users));
