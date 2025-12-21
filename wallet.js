@@ -1,52 +1,46 @@
-const fixedNumbers = {
-    "bkash": "01797632229",
-    "nagad": "01797632229",
-    "rocket": "01797632229"
+const paymentNumbers = {
+    bkash: "01797632229",
+    nagad: "01797632229",
+    rocket: "01797632229"
 };
 
 function updateNumber() {
     const method = document.getElementById("paymentMethod").value;
-    document.getElementById("paymentNumber").innerText = method 
-        ? `${method}: ${fixedNumbers[method]}`
-        : "মেথড নির্বাচন করুন";
+    const numberField = document.getElementById("paymentNumber");
+
+    if (paymentNumbers[method]) {
+        numberField.textContent = `${method}: ${paymentNumbers[method]}`;
+    } else {
+        numberField.textContent = "মেথড নির্বাচন করুন";
+    }
 }
 
 function depositMoney() {
     const amount = document.getElementById("depositAmount").value;
     const method = document.getElementById("paymentMethod").value;
-    const trxid = document.getElementById("trxid").value;
-
-    if (!amount || !method || !trxid) {
-        alert("সব তথ্য দিন");
+    const trxid = document.getElementById("trxid") ? document.getElementById("trxid").value : "";
+    
+    if (!amount || !method) {
+        alert("সব তথ্য পূরণ করুন");
         return;
     }
 
-    const currentUser = JSON.parse(localStorage.getItem("currentUserData"));
-
-    if (!currentUser) {
-        alert("Please Login First!");
-        return;
-    }
+    const depositNumber = paymentNumbers[method];
 
     const deposit = {
-        user: currentUser.phone,
-        amount: Number(amount),
+        user: localStorage.getItem("loggedInUser"),
+        amount: amount,
         method: method,
-        number: fixedNumbers[method],
+        number: depositNumber,
         trxid: trxid,
-        status: "pending",
         date: new Date().toLocaleString()
     };
 
-    let pending = JSON.parse(localStorage.getItem("pendingDeposits")) || [];
-    pending.push(deposit);
+    let pendingDeposits = JSON.parse(localStorage.getItem("pendingDeposits")) || [];
+    pendingDeposits.push(deposit);
 
-    localStorage.setItem("pendingDeposits", JSON.stringify(pending));
+    localStorage.setItem("pendingDeposits", JSON.stringify(pendingDeposits));
 
-    alert("ডিপোজিট রিকোয়েস্ট পাঠানো হয়েছে (Pending)");
-
-    document.getElementById("depositAmount").value = "";
-    document.getElementById("paymentMethod").value = "";
-    document.getElementById("trxid").value = "";
-    document.getElementById("paymentNumber").innerText = "মেথড নির্বাচন করুন";
+    alert("ডিপোজিট রিকোয়েস্ট পাঠানো হয়েছে");
+    window.location.href = "wallet.html";
 }
