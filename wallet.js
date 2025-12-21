@@ -16,39 +16,44 @@ function updateNumber() {
 }
 
 function depositMoney() {
-    const amount = document.getElementById("depositAmount").value;
-    const method = document.getElementById("paymentMethod").value;
-    const trxid = document.getElementById("trxid").value;
+    const amount = document.getElementById("depositAmount").value.trim();
+    const method = document.getElementById("paymentMethod").value.trim();
+    const trxidInput = document.getElementById("trxid").value.trim();
 
+    // Amount & method validation
     if (!amount || !method) {
-        alert("Amount ও Method দিন!");
+        alert("Amount এবং Method দিতে হবে!");
         return;
     }
 
-    const user = localStorage.getItem("currentUser");
+    // ট্রানজেকশন আইডি অপশনাল
+    const trxid = trxidInput !== "" ? trxidInput : "N/A";
 
-    if (!user) {
-        alert("Login First!");
+    const currentUser = localStorage.getItem("currentUser");
+
+    if (!currentUser) {
+        alert("Please login first!");
         return;
     }
 
-    const deposit = {
-        user: user,
+    const depositData = {
+        user: currentUser,
         amount: Number(amount),
         method: method,
-        trxid: trxid || "Not Provided",
         number: fixedNumbers[method],
+        trxid: trxid,
         status: "pending",
         date: new Date().toLocaleString()
     };
 
-    let pending = JSON.parse(localStorage.getItem("pendingDeposits")) || [];
-    pending.push(deposit);
+    let pendingDeposits = JSON.parse(localStorage.getItem("pendingDeposits")) || [];
+    pendingDeposits.push(depositData);
 
-    localStorage.setItem("pendingDeposits", JSON.stringify(pending));
+    localStorage.setItem("pendingDeposits", JSON.stringify(pendingDeposits));
 
-    alert("Deposit request sent!");
+    alert("ডিপোজিট রিকোয়েস্ট সফলভাবে পাঠানো হয়েছে!");
 
+    // form reset
     document.getElementById("depositAmount").value = "";
     document.getElementById("paymentMethod").value = "";
     document.getElementById("trxid").value = "";
