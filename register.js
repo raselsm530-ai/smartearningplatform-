@@ -1,4 +1,4 @@
-document.getElementById("registerForm").addEventListener("submit", function(e) {
+document.getElementById("registerForm").addEventListener("submit", async function(e) {
     e.preventDefault();
 
     let phone = document.getElementById("phone").value.trim();
@@ -7,6 +7,7 @@ document.getElementById("registerForm").addEventListener("submit", function(e) {
     let withdrawPin = document.getElementById("withdrawPin").value.trim();
     let refCode = document.getElementById("inviteCode").value.trim();
 
+    // Validation
     if (phone.length !== 11 || !phone.startsWith("01")) {
         alert("সঠিক মোবাইল নম্বর দিন");
         return;
@@ -22,13 +23,19 @@ document.getElementById("registerForm").addEventListener("submit", function(e) {
         return;
     }
 
-    let users = JSON.parse(localStorage.getItem("users")) || [];
+    // Firebase DB Reference
+    const userRef = window.ref(window.db, "users/" + phone);
 
-    if (users.some(u => u.phone === phone)) {
+    // Check if already exists
+    const snapshot = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js")
+        .then(module => module.get(userRef));
+
+    if (snapshot.exists()) {
         alert("এই নম্বরে আগেই একাউন্ট আছে");
         return;
     }
 
+    // New user data
     const newUser = {
         phone,
         password,
@@ -37,14 +44,20 @@ document.getElementById("registerForm").addEventListener("submit", function(e) {
         balance: 0
     };
 
-    users.push(newUser);
+    // Save to firebase
+    window.set(userRef, newUser)
+        .then(() => {
+            alert("রেজিস্ট্রেশন সফল 🎉");
 
-    localStorage.setItem("users", JSON.stringify(users));
+            // Save current user locally (optional)
+            localStorage.setItem("currentUser", phone);
+            localStorage.setItem("currentUserData", JSON.stringify(newUser));
 
-    // MAIN FIX ✔️
-    localStorage.setItem("currentUser", phone);
-    localStorage.setItem("currentUserData", JSON.stringify(newUser));
+            window.location.href = "login.html";
+        })
+        .catch((error) => {
+            alert("কিছু সমস্যা হয়েছে ❌");
+            console.log(error);
+        });
 
-    alert("রেজিস্ট্রেশন সফল 🎉 এখন লগইন করুন");
-    window.location.href = "login.html";
 });
