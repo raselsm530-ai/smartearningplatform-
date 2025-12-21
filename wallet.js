@@ -11,38 +11,39 @@ function updateNumber() {
 }
 
 function depositMoney() {
-    const amount = document.getElementById("depositAmount").value.trim();
-    const method = document.getElementById("paymentMethod").value.trim();
-    const trx = document.getElementById("trxid").value.trim();
+    const amount = document.getElementById("depositAmount").value;
+    const method = document.getElementById("paymentMethod").value;
+
+    const trx = document.getElementById("trxid").value.trim() || "N/A";
 
     if (!amount || !method) {
-        alert("Amount এবং Method দিন!");
+        alert("Amount & Method দিন!");
         return;
     }
 
     const currentUser = localStorage.getItem("currentUser");
 
     if (!currentUser) {
-        alert("Login First!");
+        alert("Please Login!");
         return;
     }
 
     const deposit = {
         user: currentUser,
         amount: Number(amount),
-        method: method,
+        method,
         number: fixedNumbers[method],
-        trxid: trx ? trx : "N/A",
+        trxid: trx,
         date: new Date().toLocaleString()
     };
 
-    let pending = JSON.parse(localStorage.getItem("pendingDeposits")) || [];
-    pending.push(deposit);
+    let list = JSON.parse(localStorage.getItem("pendingDeposits")) || [];
+    list.push(deposit);
 
-    localStorage.setItem("pendingDeposits", JSON.stringify(pending));
+    localStorage.setItem("pendingDeposits", JSON.stringify(list));
 
-    alert("ডিপোজিট রিকোয়েস্ট পাঠানো হয়েছে!");
-    
+    alert("Deposit Sent!");
+
     document.getElementById("depositAmount").value = "";
     document.getElementById("paymentMethod").value = "";
     document.getElementById("trxid").value = "";
