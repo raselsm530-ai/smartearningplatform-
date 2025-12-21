@@ -6,49 +6,47 @@ const fixedNumbers = {
 
 function updateNumber() {
     const method = document.getElementById("paymentMethod").value;
-    const paymentNumber = document.getElementById("paymentNumber");
-
-    if (!method) {
-        paymentNumber.textContent = "মেথড নির্বাচন করুন";
-        return;
-    }
-
-    paymentNumber.textContent = method + ": " + fixedNumbers[method];
+    document.getElementById("paymentNumber").innerText = method 
+        ? `${method}: ${fixedNumbers[method]}`
+        : "মেথড নির্বাচন করুন";
 }
 
 function depositMoney() {
     const amount = document.getElementById("depositAmount").value;
     const method = document.getElementById("paymentMethod").value;
+    const trxid = document.getElementById("trxid").value;
 
-    if (!amount || amount <= 0) {
-        alert("সঠিক এমাউন্ট লিখুন");
+    if (!amount || !method || !trxid) {
+        alert("সব তথ্য দিন");
         return;
     }
 
-    if (!method) {
-        alert("পেমেন্ট মেথড নির্বাচন করুন");
+    const currentUser = JSON.parse(localStorage.getItem("currentUserData"));
+
+    if (!currentUser) {
+        alert("Please Login First!");
         return;
     }
-
-    // Corrected:
-    const user = localStorage.getItem("currentUser");
 
     const deposit = {
-        user,
+        user: currentUser.phone,
         amount: Number(amount),
-        method,
+        method: method,
+        number: fixedNumbers[method],
+        trxid: trxid,
         status: "pending",
         date: new Date().toLocaleString()
     };
 
-    let allDeposits = JSON.parse(localStorage.getItem("pendingDeposits")) || [];
-    allDeposits.push(deposit);
+    let pending = JSON.parse(localStorage.getItem("pendingDeposits")) || [];
+    pending.push(deposit);
 
-    localStorage.setItem("pendingDeposits", JSON.stringify(allDeposits));
+    localStorage.setItem("pendingDeposits", JSON.stringify(pending));
 
     alert("ডিপোজিট রিকোয়েস্ট পাঠানো হয়েছে (Pending)");
 
     document.getElementById("depositAmount").value = "";
     document.getElementById("paymentMethod").value = "";
-    document.getElementById("paymentNumber").textContent = "মেথড নির্বাচন করুন";
+    document.getElementById("trxid").value = "";
+    document.getElementById("paymentNumber").innerText = "মেথড নির্বাচন করুন";
 }
