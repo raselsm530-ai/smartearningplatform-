@@ -1,65 +1,48 @@
-// FIXED PAYMENT NUMBERS
 const fixedNumbers = {
     "bkash": "01797632229",
     "nagad": "01797632229",
     "rocket": "01797632229"
 };
 
-// UPDATE NUMBER WHEN METHOD CHANGES
 function updateNumber() {
     const method = document.getElementById("paymentMethod").value;
-    const numberBox = document.getElementById("paymentNumber");
-
-    if (fixedNumbers[method]) {
-        numberBox.innerText = `${method}: ${fixedNumbers[method]}`;
-    } else {
-        numberBox.innerText = "মেথড নির্বাচন করুন";
-    }
+    document.getElementById("paymentNumber").innerText =
+        fixedNumbers[method] ? `${method}: ${fixedNumbers[method]}` : "মেথড নির্বাচন করুন";
 }
 
-// MAIN DEPOSIT FUNCTION
 function depositMoney() {
     const amount = document.getElementById("depositAmount").value.trim();
     const method = document.getElementById("paymentMethod").value.trim();
-    const trxidInput = document.getElementById("trxid").value.trim();
+    const trx = document.getElementById("trxid").value.trim();
 
-    // validate
     if (!amount || !method) {
-        alert("Amount এবং Method দিতে হবে!");
+        alert("Amount এবং Method দিন!");
         return;
     }
 
-    // trx optional
-    const trxid = trxidInput !== "" ? trxidInput : "N/A";
+    const user = localStorage.getItem("currentUser");
 
-    // GET LOGGED IN USER
-    const currentUser = localStorage.getItem("currentUser");
-
-    if (!currentUser) {
-        alert("Please login first!");
+    if (!user) {
+        alert("Please Login!");
         return;
     }
 
-    // CREATE DEPOSIT OBJECT
-    const depositData = {
-        user: currentUser,                     // phone number saved
+    const deposit = {
+        user: user,                    // PHONE NUMBER ONLY ✔️
         amount: Number(amount),
         method: method,
-        number: fixedNumbers[method],          // fixed wallet number
-        trxid: trxid,
-        status: "pending",
+        number: fixedNumbers[method],
+        trxid: trx ? trx : "N/A",
         date: new Date().toLocaleString()
     };
 
-    // PUSH TO LOCAL STORAGE
-    let pendingDeposits = JSON.parse(localStorage.getItem("pendingDeposits")) || [];
-    pendingDeposits.push(depositData);
+    let pending = JSON.parse(localStorage.getItem("pendingDeposits")) || [];
+    pending.push(deposit);
 
-    localStorage.setItem("pendingDeposits", JSON.stringify(pendingDeposits));
+    localStorage.setItem("pendingDeposits", JSON.stringify(pending));
 
-    alert("ডিপোজিট রিকোয়েস্ট পাঠানো হয়েছে!");
+    alert("Deposit Sent!");
 
-    // reset
     document.getElementById("depositAmount").value = "";
     document.getElementById("paymentMethod").value = "";
     document.getElementById("trxid").value = "";
