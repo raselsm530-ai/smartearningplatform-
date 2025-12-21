@@ -14,21 +14,22 @@ function loadPendingDeposits() {
             <p>📱 User: ${d.user}</p>
             <p>💰 Amount: ${d.amount} ৳</p>
             <p>🏦 Method: ${d.method}</p>
-            <p>📞 Number: ${d.number || "Not Set"}</p>
-            <p>📝 TrxID: ${d.trxid || "Not Provided"}</p>
+            <p>📝 TrxID: ${d.trxid}</p>
             <p>⏱ Date: ${d.date}</p>
+
             <button class="approve" onclick="approveDeposit(${index})">Approve</button>
         </div>`;
     });
 }
 
 function approveDeposit(index) {
+
     let pending = JSON.parse(localStorage.getItem("pendingDeposits")) || [];
     let deposit = pending[index];
 
     let users = JSON.parse(localStorage.getItem("users")) || [];
 
-    // match by phone number correctly
+    // find correct user
     let userIndex = users.findIndex(u => u.phone == deposit.user);
 
     if (userIndex === -1) {
@@ -39,21 +40,24 @@ function approveDeposit(index) {
     // update balance
     users[userIndex].balance = Number(users[userIndex].balance || 0) + Number(deposit.amount);
 
-    // Save all users back
+    // update users storage
     localStorage.setItem("users", JSON.stringify(users));
 
-    // If logged user same, update currentUserData also
-    let currentUser = JSON.parse(localStorage.getItem("currentUserData"));
-    if (currentUser && currentUser.phone === deposit.user) {
-        currentUser.balance = users[userIndex].balance;
-        localStorage.setItem("currentUserData", JSON.stringify(currentUser));
+    // ALSO update logged in user balance
+    let currentUser = localStorage.getItem("currentUser");
+    let currentUserData = JSON.parse(localStorage.getItem("currentUserData")) || null;
+
+    if (currentUser && currentUserData && currentUser == deposit.user) {
+        currentUserData.balance = users[userIndex].balance;
+        localStorage.setItem("currentUserData", JSON.stringify(currentUserData));
     }
 
-    // remove pending
+    // remove from pending
     pending.splice(index, 1);
     localStorage.setItem("pendingDeposits", JSON.stringify(pending));
 
-    alert("Deposit Approved & Balance Updated!");
+    alert("Deposit Approved! User Balance Updated.");
+
     loadPendingDeposits();
 }
 
