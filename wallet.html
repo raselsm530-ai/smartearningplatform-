@@ -48,6 +48,28 @@
             margin-bottom: 16px;
         }
 
+        .method-grid {
+            display: flex;
+            justify-content: space-around;
+            margin: 12px 0;
+        }
+
+        .method-box {
+            width: 80px;
+            padding: 12px;
+            border-radius: 12px;
+            border: 2px solid #ccc;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .method-box.active {
+            border-color: #3d5af1;
+            background: #3d5af1;
+            color: white;
+            font-weight: bold;
+        }
+
         button {
             width: 100%;
             padding: 14px;
@@ -78,7 +100,12 @@
         </div>
 
         <div class="info-box">
-            <p>Payment Method: <span id="paymentMethod">-</span></p>
+            <p>Payment Method:</p>
+            <div class="method-grid">
+                <div class="method-box" id="bkash" onclick="selectMethod('bkash')">Bkash</div>
+                <div class="method-box" id="nagad" onclick="selectMethod('nagad')">Nagad</div>
+                <div class="method-box" id="rocket" onclick="selectMethod('rocket')">Rocket</div>
+            </div>
         </div>
 
         <button onclick="depositMoney()">ডিপোজিট পাঠান</button>
