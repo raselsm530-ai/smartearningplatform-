@@ -1,21 +1,20 @@
-// login.js
 import { auth } from "./firebase-config.js";
 import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
 
 window.login = () => {
     const phone = document.getElementById("phone").value.trim();
-    const password = document.getElementById("password").value.trim();
+    const pass = document.getElementById("password").value.trim();
 
-    if (!phone || !password) {
-        alert("সব ঘর পূরণ করুন");
+    if(phone === "" || pass === "") {
+        alert("সব ঘর পূরণ করুন!");
         return;
     }
 
-    const email = phone + "@app.com";
+    const email = phone + "@app.com"; // Firebase email trick
 
-    signInWithEmailAndPassword(auth, email, password)
+    signInWithEmailAndPassword(auth, email, pass)
         .then(() => {
-            sessionStorage.setItem("user", phone); // Logged in user
+            localStorage.setItem("user", phone);
             alert("লগইন সফল 🎉");
             location.href = "home.html";
         })
