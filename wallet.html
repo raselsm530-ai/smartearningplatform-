@@ -1,43 +1,52 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="bn">
+
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ওয়ালেট</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="wallet.css" />
 </head>
+
 <body>
-<div class="container">
-    <h2 class="page-title">টাকা যোগ করুন</h2>
 
-    <div class="amount-options">
-        <button onclick="selectAmount(500)">500 ৳</button>
-        <button onclick="selectAmount(1000)">1000 ৳</button>
-        <button onclick="selectAmount(3000)">3000 ৳</button>
-        <button onclick="selectAmount(5000)">5000 ৳</button>
-        <button onclick="selectAmount(10000)">10000 ৳</button>
+    <div class="header">
+        <h2>ডিপোজিট / ওয়ালেট</h2>
     </div>
 
-    <div class="info-box">
-        <p><strong>পেমেন্ট মেথড:</strong></p>
-        <select id="paymentMethod">
-            <option value="">পেমেন্ট মেথড নির্বাচন করুন</option>
-            <option value="bkash">Bkash</option>
-            <option value="nagad">Nagad</option>
-            <option value="rocket">Rocket</option>
+    <div class="deposit-box">
+
+        <p class="title">ডিপোজিট অ্যামাউন্ট নির্বাচন করুন</p>
+
+        <div class="amount-grid">
+
+            <div class="amount-card" data-amount="500">৳ 500</div>
+            <div class="amount-card" data-amount="3000">৳ 3000</div>
+            <div class="amount-card" data-amount="5000">৳ 5000</div>
+            <div class="amount-card" data-amount="10000">৳ 10000</div>
+
+        </div>
+
+        <p class="title">পেমেন্ট মেথড নির্বাচন</p>
+
+        <select id="methodSelect">
+            <option value="bKash">বিকাশ</option>
+            <option value="Nagad">নগদ</option>
+            <option value="Rocket">রকেট</option>
         </select>
+
+        <div class="selected-info">
+            <p>নির্বাচিত অ্যামাউন্ট: <span id="selectedAmount">0</span>৳</p>
+            <p>পেমেন্ট মেথড: <span id="selectedMethod">bKash</span></p>
+        </div>
+
+        <button class="submit-btn" onclick="makeDeposit()">ডিপোজিট</button>
+
+        <button class="back-btn" onclick="location.href='home.html'">⬅ হোমে ফিরে যান</button>
+
     </div>
 
-    <div class="info-box">
-        <p><strong>নির্দিষ্ট নাম্বার:</strong> <span id="paymentNumber">01797632229</span></p>
-    </div>
-
-    <div class="input-group">
-        <input type="text" id="trxid" placeholder="Transaction ID (TrxID)">
-    </div>
-
-    <button onclick="depositMoney()">ডিপোজিট করুন</button>
-</div>
-
-<script src="wallet.js"></script>
+    <script type="module" src="wallet.js"></script>
 </body>
-</html>          
+
+</html>
