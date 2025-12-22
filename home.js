@@ -1,43 +1,15 @@
-// Load Firebase DB functions
-import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+import { db } from "./firebase-config.js";
+import { ref, get } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-database.js";
 
-// load Firebase app instance (already initialized in firebase-config.js)
-const db = getDatabase();
+window.onload = async () => {
+    const phone = localStorage.getItem("currentUser");
+    if (!phone) return location.href = "login.html";
 
-// When page loads
-window.onload = async function () {
+    document.getElementById("welcomeText").innerText = "স্বাগতম " + phone;
 
-    let phone = localStorage.getItem("currentUser");
+    const snap = await get(ref(db, "users/" + phone));
 
-    if (!phone) {
-        alert("দয়া করে লগইন করুন!");
-        window.location.href = "login.html";
-        return;
-    }
-
-    document.getElementById("welcomeText").textContent = "স্বাগতম, " + phone;
-
-    try {
-        const userRef = ref(db, "users/" + phone);
-        const snapshot = await get(userRef);
-
-        if (snapshot.exists()) {
-            const data = snapshot.val();
-            document.getElementById("balance").textContent = data.balance + " ৳";
-
-        } else {
-            document.getElementById("balance").textContent = "0 ৳";
-        }
-
-    } catch (error) {
-        console.log(error);
-        alert("ইন্টারনেট বা সার্ভার সমস্যা!");
+    if (snap.exists()) {
+        document.getElementById("balance").innerText = snap.val().balance + " ৳";
     }
 };
-
-// Logout
-function logoutUser() {
-    localStorage.removeItem("currentUser");
-    alert("লগআউট সফল!");
-    window.location.href = "login.html";
-}
