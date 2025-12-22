@@ -13,12 +13,18 @@ let selectedMethod = "";
 window.selectAmount = (amount) => {
     selectedAmount = amount;
 
-    // Auto random method if not selected
+    // যদি method আগে সিলেক্ট না করে
     if (!selectedMethod) {
         const methods = Object.keys(fixedNumbers);
         selectedMethod = methods[Math.floor(Math.random() * methods.length)];
-        document.getElementById(selectedMethod).classList.add("active");
     }
+
+    // UI update
+    Object.keys(fixedNumbers).forEach(m => {
+        const el = document.getElementById(m);
+        if (m === selectedMethod) el.classList.add("active");
+        else el.classList.remove("active");
+    });
 
     document.getElementById("paymentNumber").innerText = fixedNumbers[selectedMethod];
 };
