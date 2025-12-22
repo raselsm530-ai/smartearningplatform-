@@ -1,6 +1,6 @@
-let selectedAmount = 0;
+let amount = 0;
 
-const numbers = {
+const paymentNumbers = {
     "বিকাশ": "01797632229",
     "নগদ": "01797632229",
     "রকেট": "01797632229"
@@ -9,38 +9,41 @@ const numbers = {
 document.querySelectorAll(".amount").forEach(btn => {
     btn.addEventListener("click", () => {
 
-        document.querySelectorAll(".amount")
-            .forEach(a => a.classList.remove("active"));
+        document.querySelectorAll(".amount").forEach(x =>
+            x.classList.remove("active")
+        );
 
         btn.classList.add("active");
 
-        selectedAmount = btn.dataset.amount;
+        amount = btn.dataset.amount;
 
-        document.getElementById("showSelection").innerHTML =
-            `আপনি নির্বাচন করেছেন <b>${selectedAmount} ৳</b>`;
+        document.getElementById("selectedBox").innerHTML =
+            `আপনি নির্বাচন করেছেন <b>${amount}৳</b>`;
     });
 });
 
-window.startDeposit = () => {
+window.deposit = () => {
 
-    if (!selectedAmount) {
-        alert("দয়া করে এমাউন্ট সিলেক্ট করুন");
+    if (!amount) {
+        alert("দয়া করে Amount নির্বাচন করুন");
         return;
     }
 
     const method = document.getElementById("method").value;
 
     if (!method) {
-        alert("পেমেন্ট মেথড নির্বাচন করুন");
+        alert("মেথড নির্বাচন করুন");
         return;
     }
 
-    const num = numbers[method];
+    const num = paymentNumbers[method];
 
-    document.getElementById("paymentNumberBox").classList.remove("hidden");
-    document.getElementById("paymentNumberBox").innerHTML = `
-        📌 ${method} নাম্বার: <b>${num}</b>
-        <br>এমাউন্ট: <b>${selectedAmount} ৳</b>
-        <br><br>💡 এখন অ্যাপ দিয়ে টাকা পাঠান।
+    const box = document.getElementById("numberBox");
+    box.classList.remove("hidden");
+
+    box.innerHTML = `
+        📌 ${method} নাম্বার:<b> ${num}</b>
+        <br>এমাউন্ট: <b>${amount}৳</b>
+        <br><br>এখন টাকা পাঠান!
     `;
 };
