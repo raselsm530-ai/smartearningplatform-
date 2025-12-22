@@ -1,0 +1,44 @@
+body.home {
+    background: #eef3ff;
+    font-family: Arial, sans-serif;
+}
+
+.home-header {
+    background: linear-gradient(135deg, #3d5af1, #5a73ec);
+    padding: 35px 16px;
+    text-align: center;
+    color: #fff;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+}
+
+.balance-box {
+    width: 90%;
+    margin: -20px auto 15px;
+    background: #fff;
+    padding: 18px;
+    border-radius: 18px;
+    text-align: center;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+.grid-menu {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    padding: 16px;
+}
+
+.menu-card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 18px;
+    text-align: center;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    cursor: pointer;
+}
+
+.menu-card.logout {
+    background: #f44336;
+    color: #fff;
+}
