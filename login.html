@@ -2,48 +2,73 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>লগইন</title>
+
     <link rel="stylesheet" href="style.css">
 
     <style>
         body {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .login-box {
+            width: 90%;
+            max-width: 420px;
+            background: #f5f7ff;
+            padding: 25px;
+            border-radius: 18px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
             text-align: center;
-            padding-top: 60px;
         }
+
         input {
-            width: 80%;
-            margin: 8px;
-            padding: 12px;
-            border-radius: 8px;
-            border: none;
+            width: 100%;
+            margin: 8px 0;
+            padding: 14px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
         }
+
         button {
-            width: 85%;
-            padding: 12px;
+            width: 100%;
+            padding: 14px;
             background: #4B7BFF;
-            color: white;
+            color: #fff;
             border: none;
-            border-radius: 8px;
+            border-radius: 12px;
+            margin-top: 12px;
         }
-        h2 {
-            margin-bottom: 20px;
+
+        a {
+            color: #3d5af1;
+            font-weight: 600;
         }
     </style>
 
 </head>
+
 <body>
 
-<h2>লগইন</h2>
+    <div class="login-box">
 
-<input type="tel" id="phone" placeholder="মোবাইল নাম্বার">
-<input type="password" id="password" placeholder="পাসওয়ার্ড">
+        <h2>লগইন</h2>
 
-<button onclick="login()">লগইন</button>
+        <input type="tel" id="phone" placeholder="মোবাইল নাম্বার">
+        <input type="password" id="password" placeholder="পাসওয়ার্ড">
 
-<p style="margin-top:15px">New User? <a href="register.html">Register</a></p>
+        <button onclick="login()">লগইন</button>
 
-<script type="module" src="firebase-config.js"></script>
-<script type="module" src="login.js"></script>
+        <p style="margin-top:15px">নতুন ইউজার? <a href="register.html">রেজিস্টার</a></p>
+
+    </div>
+
+    <script type="module" src="firebase-config.js"></script>
+    <script type="module" src="login.js"></script>
 
 </body>
 </html>
