@@ -1,23 +1,32 @@
 import { auth, db } from "./firebase-config.js";
-import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-import { ref, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
+import { ref, set } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-database.js";
 
 window.register = () => {
     const phone = document.getElementById("phone").value.trim();
-    const pass = document.getElementById("password").value.trim();
+    const password = document.getElementById("password").value.trim();
+    const cpassword = document.getElementById("cpassword").value.trim();
+    const refer = document.getElementById("refer").value.trim();
 
-    if (!phone || !pass) { alert("সব ঘর পূরণ করুন"); return; }
-    const email = phone + "@app.com";
+    if (!phone || !password || !cpassword) { alert("সব ঘর পূরণ করুন"); return; }
+    if (password !== cpassword) { alert("পাসওয়ার্ড মিলছে না"); return; }
 
-    createUserWithEmailAndPassword(auth, email, pass)
-        .then(() => {
-            set(ref(db, "users/" + phone), {
-                phone: phone,
-                balance: 0,
-                joined: new Date().toLocaleString()
-            });
-            alert("রেজিস্ট্রেশন সফল 👍");
-            location.href = "login.html";
-        })
-        .catch(err => alert("Error: " + err.message));
+    const email = phone + "@app.com"; // Firebase Auth Email Trick
+
+    createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+        // Database এ সেভ
+        set(ref(db, "users/" + phone), {
+            phone: phone,
+            balance: 0,
+            refCode: refer || "NO-REF",
+            joined: new Date().toLocaleString()
+        });
+        localStorage.setItem("currentUser", phone);
+        alert("রেজিস্ট্রেশন সফল!");
+        location.href = "home.html";
+    })
+    .catch((error) => {
+        alert("Error: " + error.message);
+    });
 };
