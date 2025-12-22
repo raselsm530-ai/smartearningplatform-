@@ -2,32 +2,22 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>লগইন</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<div class="container">
-    <h2 class="page-title">লগইন</h2>
+<h2>লগইন</h2>
 
-    <form id="loginForm">
-        <div class="input-group">
-            <input type="text" id="phone" placeholder="মোবাইল নম্বর" required>
-        </div>
+<input type="text" id="phone" placeholder="মোবাইল নাম্বার">
+<input type="password" id="password" placeholder="পাসওয়ার্ড">
 
-        <div class="input-group">
-            <input type="password" id="password" placeholder="পাসওয়ার্ড" required>
-        </div>
+<button onclick="login()">লগইন</button>
 
-        <button type="submit" class="btn-primary">লগইন</button>
-    </form>
-
-    <div class="signup-link">
-        একাউন্ট নেই? <a href="register.html">রেজিস্টার করুন</a>
-    </div>
-</div>
+<p>New? <a href="register.html">Register</a></p>
 
 <script type="module" src="firebase-config.js"></script>
 <script type="module" src="login.js"></script>
+
+</body>
+</html>
