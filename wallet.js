@@ -1,44 +1,46 @@
 import { db } from "./firebase-config.js";
-import { ref, push } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-database.js";
+import { ref, push } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js";
 
-const fixedNumbers = {
-    "bkash": "01797632229",
-    "nagad": "01797632229",
-    "rocket": "01797632229"
-};
+function updateNumber() {
+    let method = document.getElementById("paymentMethod").value;
+    let number = "01797632229"; 
 
-window.updateNumber = function () {
-    const method = document.getElementById("paymentMethod").value;
-    document.getElementById("paymentNumber").innerText =
-        fixedNumbers[method] ? `${method}: ${fixedNumbers[method]}` : "মেথড নির্বাচন করুন";
-};
+    if (method === "") {
+        document.getElementById("paymentNumber").innerText = "মেথড নির্বাচন করুন";
+        return;
+    }
 
-window.depositMoney = async function () {
+    document.getElementById("paymentNumber").innerText = `${method} ➤ ${number}`;
+}
 
-    const amount = document.getElementById("depositAmount").value.trim();
-    const method = document.getElementById("paymentMethod").value.trim();
-    const trxid = document.getElementById("trxid").value.trim();
-    const phone = localStorage.getItem("currentUser");
+window.updateNumber = updateNumber;
 
-    if (!phone) return alert("Login first!");
-    if (!amount || !method) return alert("Amount & Method দিন!");
+window.depositMoney = function () {
+    let amount = document.getElementById("depositAmount").value.trim();
+    let trxid = document.getElementById("trxid").value.trim();
+    let method = document.getElementById("paymentMethod").value;
+    
+    let user = localStorage.getItem("currentUser");
 
-    const data = {
-        user: phone,
-        amount: Number(amount),
-        method,
-        number: fixedNumbers[method],
-        trxid: trxid || "N/A",
-        status: "pending",
-        date: new Date().toLocaleString()
-    };
+    if (!user) {
+        alert("লগইন করুন");
+        return;
+    }
 
-    await push(ref(db, "pendingDeposits"), data);
+    if (!amount || !trxid || !method) {
+        alert("সব তথ্য দিন!");
+        return;
+    }
 
-    alert("ডিপোজিট রিকোয়েস্ট পাঠানো হয়েছে!");
+    const depositRef = ref(db, "pendingDeposits");
 
-    document.getElementById("depositAmount").value = "";
-    document.getElementById("paymentMethod").value = "";
-    document.getElementById("trxid").value = "";
-    updateNumber();
+    push(depositRef, {
+        user: user,
+        amount: amount,
+        trxid: trxid,
+        method: method,
+        status: "pending"
+    });
+
+    alert("ডিপোজিট পাঠানো হয়েছে!");
 };
