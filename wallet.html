@@ -4,17 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ডিপোজিট</title>
-
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="wallet.css">
 </head>
-
 <body>
 
 <div class="container">
     <h2>ডিপোজিট করুন</h2>
 
-    <!-- Amount Buttons -->
+    <!-- Amount Selection -->
     <div class="amount-grid">
         <button onclick="selectAmount(500)">৳500</button>
         <button onclick="selectAmount(1000)">৳1000</button>
@@ -24,33 +22,28 @@
         <button onclick="selectAmount(10000)">৳10000</button>
     </div>
 
-    <!-- Selected Amount -->
-    <p class="selected-amount">
-        Selected Amount: <strong id="showAmount">0</strong> ৳
-    </p>
+    <p>Selected Amount: <strong id="showAmount">0</strong> ৳</p>
 
     <!-- Payment Method -->
-    <select id="method">
-        <option value="">পেমেন্ট মেথড সিলেক্ট করুন</option>
+    <select id="paymentMethod" onchange="updateNumber()">
+        <option value="">পেমেন্ট মেথড নির্বাচন করুন</option>
         <option value="bkash">Bkash</option>
         <option value="nagad">Nagad</option>
         <option value="rocket">Rocket</option>
     </select>
 
     <!-- Fixed Number + Copy -->
-    <div class="fixed-number-box">
+    <div class="fixed-number">
         <span id="fixedNumberText">01797632229</span>
         <button class="copy-btn" onclick="copyNumber()">কপি</button>
     </div>
+    <p class="send-money-text">Send Money</p>
 
-    <!-- Transaction ID -->
-    <input type="text" id="trxid" placeholder="Transaction ID লিখুন">
+    <!-- Transaction ID + Screenshot -->
+    <input type="text" id="trxid" placeholder="Transaction ID">
+    <input type="file" id="screenshot">
 
-    <!-- Screenshot Upload -->
-    <input type="file" id="screenshot" accept="image/*">
-
-    <!-- Submit -->
-    <button class="submit-btn" onclick="submitDeposit()">Submit Deposit</button>
+    <button onclick="submitDeposit()">Submit Deposit</button>
 </div>
 
 <script src="wallet.js"></script>
