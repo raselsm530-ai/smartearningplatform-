@@ -1,18 +1,20 @@
 import { auth } from "./firebase-config.js";
-import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { signInWithEmailAndPassword } from
+  "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-window.login = () => {
-    const phone = document.getElementById("phone").value.trim();
-    const password = document.getElementById("password").value.trim();
+const form = document.getElementById("loginForm");
 
-    if (!phone || !password) return alert("সব ঘর পূরণ করুন");
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
 
-    const email = phone + "@app.com";
+  const email = document.getElementById("loginEmail").value.trim();
+  const password = document.getElementById("loginPassword").value.trim();
 
-    signInWithEmailAndPassword(auth, email, password)
-    .then(() => {
-        localStorage.setItem("user", phone);
-        location.href = "home.html";
-    })
-    .catch(err => alert("লগইন ব্যর্থ: " + err.message));
-};
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+    alert("✅ Login Successful");
+    window.location.href = "home.html";
+  } catch (err) {
+    alert("❌ " + err.message);
+  }
+});
