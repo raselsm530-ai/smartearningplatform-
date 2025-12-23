@@ -1,8 +1,7 @@
- /* ================= WALLET PAGE THEME ================= */
-
+/* ================= WALLET PAGE THEME ================= */
 body {
     margin: 0;
-    font-family: 'Segoe UI', Arial, sans-serif;
+    font-family: Arial, sans-serif;
     background: linear-gradient(135deg, #4B7BFF, #8E54E9);
     min-height: 100vh;
     display: flex;
@@ -17,7 +16,7 @@ body {
     background: #ffffff;
     border-radius: 22px;
     padding: 22px;
-    box-shadow: 0 14px 35px rgba(0,0,0,0.2);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.18);
 }
 
 /* Title */
@@ -25,15 +24,14 @@ body {
     text-align: center;
     margin-bottom: 18px;
     color: #1f2937;
-    font-size: 22px;
 }
 
-/* Amount grid */
+/* Amount selection grid */
 .amount-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
-    margin-bottom: 14px;
+    margin-bottom: 15px;
 }
 
 .amount-grid button {
@@ -42,34 +40,34 @@ body {
     color: #fff;
     border: none;
     border-radius: 14px;
-    font-size: 17px;
+    font-size: 18px;
     font-weight: 600;
     cursor: pointer;
     transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.amount-grid button:active {
+    transform: scale(0.96);
 }
 
 .amount-grid button:hover {
     box-shadow: 0 6px 16px rgba(75,123,255,0.45);
 }
 
-.amount-grid button:active {
-    transform: scale(0.95);
+/* Selected amount text */
+#showAmount {
+    color: #4B7BFF;
+    font-size: 20px;
 }
 
-/* Selected amount */
-.selected-amount {
+p {
     text-align: center;
     margin: 10px 0;
     font-size: 16px;
     color: #374151;
 }
 
-#showAmount {
-    color: #4B7BFF;
-    font-size: 20px;
-}
-
-/* Inputs & select */
+/* Select + Inputs */
 select,
 input[type="text"],
 input[type="file"] {
@@ -82,70 +80,67 @@ input[type="file"] {
     background: #f9fafb;
 }
 
-/* Fixed number + copy button */
-.fixed-number-box {
+/* Fixed number box */
+.fixed-number {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: linear-gradient(135deg, #eef2ff, #e0e7ff);
+    gap: 10px;
+    background: #eef2ff;
     border-radius: 14px;
     padding: 14px;
-    margin: 14px 0;
-}
-
-#fixedNumberText {
+    margin: 12px 0;
     font-size: 17px;
-    font-weight: 700;
-    color: #1e40af;
-    letter-spacing: 0.5px;
-}
-
-.copy-btn {
-    padding: 9px 14px;
-    background: linear-gradient(135deg, #4B7BFF, #6A5BFF);
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    font-size: 14px;
     font-weight: 600;
-    cursor: pointer;
-    transition: transform 0.12s, opacity 0.12s;
+    color: #1e40af;
 }
 
-.copy-btn:hover {
-    opacity: 0.9;
-}
-
-.copy-btn:active {
-    transform: scale(0.95);
+/* Send Money text */
+.send-money-text {
+    text-align: center;
+    font-weight: 600;
+    color: #1e40af;
+    margin-top: 8px;
+    font-size: 16px;
 }
 
 /* Submit button */
-.submit-btn {
+button {
     width: 100%;
     padding: 15px;
     margin-top: 16px;
     background: linear-gradient(135deg, #10b981, #22c55e);
     color: #fff;
     border: none;
-    border-radius: 16px;
+    border-radius: 14px;
     font-size: 17px;
     font-weight: bold;
     cursor: pointer;
-    transition: opacity 0.15s, transform 0.15s;
+    transition: opacity 0.15s;
 }
 
-.submit-btn:hover {
-    opacity: 0.92;
+button:hover {
+    opacity: 0.9;
 }
 
-.submit-btn:active {
-    transform: scale(0.97);
+/* Copy button */
+.copy-btn {
+    padding: 8px 14px;
+    background: #4B7BFF;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    cursor: pointer;
 }
 
-/* Mobile */
+.copy-btn:active {
+    transform: scale(0.95);
+}
+
+/* Mobile safe */
 @media (max-width: 480px) {
     .container {
         padding: 20px;
     }
-}   
+}     
