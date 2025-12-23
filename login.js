@@ -4,15 +4,14 @@ import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/1
 window.login = () => {
     const phone = document.getElementById("phone").value.trim();
     const pass = document.getElementById("password").value.trim();
+    if (!phone || !pass) return alert("সব ঘর পূরণ করুন");
+
     const email = phone + "@app.com";
 
     signInWithEmailAndPassword(auth, email, pass)
-        .then(() => {
-            localStorage.setItem("user", phone);
-            alert("লগইন সফল 🎉");
-            location.href = "home.html";
-        })
-        .catch(err => {
-            alert("❌ লগইন ব্যর্থ: ভুল নম্বর বা পাসওয়ার্ড");
-        });
+    .then(() => {
+        localStorage.setItem("user", phone);
+        location.href = "home.html";
+    })
+    .catch(err => alert("লগইন ব্যর্থ: " + err.message));
 };
