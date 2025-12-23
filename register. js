@@ -1,32 +1,45 @@
 import { auth, db } from "./firebase-config.js";
-import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
-import { ref, set } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-database.js";
+import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { ref, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-window.register = () => {
+window.register = function() {
     const phone = document.getElementById("phone").value.trim();
     const password = document.getElementById("password").value.trim();
     const cpassword = document.getElementById("cpassword").value.trim();
-    const refer = document.getElementById("refer").value.trim();
+    const pin = document.getElementById("pin").value.trim();
+    const refer = document.getElementById("refer").value.trim() || "NO-REF";
 
-    if (!phone || !password || !cpassword) { alert("সব ঘর পূরণ করুন"); return; }
-    if (password !== cpassword) { alert("পাসওয়ার্ড মিলছে না"); return; }
+    if (!phone || !password || !cpassword || !pin) {
+        alert("সব ঘর পূরণ করুন");
+        return;
+    }
 
-    const email = phone + "@app.com"; // Firebase Auth Email Trick
+    if (password !== cpassword) {
+        alert("পাসওয়ার্ড মিলছে না");
+        return;
+    }
+
+    if (pin.length !== 4) {
+        alert("পিন ৪ সংখ্যার হতে হবে");
+        return;
+    }
+
+    const email = phone + "@app.com";
 
     createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-        // Database এ সেভ
-        set(ref(db, "users/" + phone), {
-            phone: phone,
-            balance: 0,
-            refCode: refer || "NO-REF",
-            joined: new Date().toLocaleString()
+        .then(user => {
+            set(ref(db, "users/" + phone), {
+                phone,
+                password,
+                withdrawPin: pin,
+                refCode: refer,
+                balance: 0,
+                joined: new Date().toLocaleString()
+            });
+            alert("রেজিস্ট্রেশন সফল 👍");
+            window.location.href = "login.html";
+        })
+        .catch(err => {
+            alert("Error: " + err.message);
         });
-        localStorage.setItem("currentUser", phone);
-        alert("রেজিস্ট্রেশন সফল!");
-        location.href = "home.html";
-    })
-    .catch((error) => {
-        alert("Error: " + error.message);
-    });
 };
