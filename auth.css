@@ -1,0 +1,36 @@
+.auth-bg{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#4B7BFF,#8E54E9);
+    font-family:Arial;
+}
+
+.auth-box{
+    width:90%;
+    max-width:420px;
+    background:#fff;
+    padding:25px;
+    border-radius:20px;
+    box-shadow:0 10px 25px rgba(0,0,0,.2);
+    text-align:center;
+}
+
+.auth-box input{
+    width:100%;
+    padding:14px;
+    margin:10px 0;
+    border-radius:12px;
+    border:1px solid #ccc;
+}
+
+.auth-box button{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:14px;
+    background:#4B7BFF;
+    color:#fff;
+    font-size:16px;
+}
