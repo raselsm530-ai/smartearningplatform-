@@ -1,24 +1,35 @@
-import { db } from "./firebase-config.js";
-import { ref, onValue, update } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+import { auth, db } from "./firebase-config.js";
+import { onAuthStateChanged, signOut } 
+from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { ref, onValue } 
+from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-const user = localStorage.getItem("user");
-if(!user) location.href="login.html";
+// 🔐 AUTH GUARD + BALANCE
+onAuthStateChanged(auth, user => {
 
-const balanceEl = document.getElementById("balance");
+    const phone = localStorage.getItem("user");
 
-const userRef = ref(db, `users/${user}`);
-onValue(userRef, snap=>{
-    const data = snap.val() || {balance:0};
-    balanceEl.innerText = data.balance;
+    if (!user || !phone) {
+        location.href = "login.html";
+        return;
+    }
+
+    const balanceRef = ref(db, "users/" + phone + "/balance");
+
+    onValue(balanceRef, snapshot => {
+        document.getElementById("balance").innerText =
+            snapshot.val() ?? 0;
+    });
 });
 
-window.buyPackage = (amount)=>{
-    if(!amount) return;
-    onValue(userRef, snap=>{
-        const data = snap.val() || {balance:0};
-        if(data.balance<amount) return alert("Balance কম আছে");
-        const newBalance = data.balance - amount;
-        update(userRef, {balance:newBalance});
-        alert(`Package ${amount} ৳ কেনা হয়েছে\nনতুন ব্যালেন্স: ${newBalance}`);
-    }, {onlyOnce:true});
+// 🔴 LOGOUT
+window.logout = async function () {
+    await signOut(auth);
+    localStorage.removeItem("user");
+    location.href = "login.html";
+};
+
+// 🔗 NAV
+window.go = function (page) {
+    location.href = page;
 };
