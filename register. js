@@ -1,34 +1,49 @@
 import { auth, db } from "./firebase-config.js";
-import { createUserWithEmailAndPassword } from
-  "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-import { ref, set } from
-  "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+import { createUserWithEmailAndPassword } 
+from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { ref, set } 
+from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-const form = document.getElementById("registerForm");
+window.register = async function () {
 
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
+    const phone = document.getElementById("phone").value.trim();
+    const pass = document.getElementById("password").value.trim();
+    const cpass = document.getElementById("cpassword").value.trim();
 
-  const email = document.getElementById("regEmail").value.trim();
-  const password = document.getElementById("regPassword").value.trim();
+    if (!phone || !pass || !cpass) {
+        alert("সব ঘর পূরণ করুন");
+        return;
+    }
 
-  if (!email || !password) {
-    alert("সব ঘর পূরণ করুন");
-    return;
-  }
+    if (pass !== cpass) {
+        alert("পাসওয়ার্ড মিলেনি");
+        return;
+    }
 
-  try {
-    const userCred = await createUserWithEmailAndPassword(auth, email, password);
-    const uid = userCred.user.uid;
+    if (phone.length < 10) {
+        alert("সঠিক নাম্বার দিন");
+        return;
+    }
 
-    await set(ref(db, "users/" + uid), {
-      email: email,
-      balance: 0
-    });
+    const email = phone + "@app.com";
 
-    alert("✅ Registration Successful");
-    window.location.href = "login.html";
-  } catch (err) {
-    alert("❌ " + err.message);
-  }
-});
+    try {
+        const userCred = await createUserWithEmailAndPassword(auth, email, pass);
+
+        await set(ref(db, "users/" + phone), {
+            phone: phone,
+            balance: 0,
+            joined: new Date().toLocaleString()
+        });
+
+        alert("রেজিস্ট্রেশন সফল ✅");
+        window.location.href = "login.html";
+
+    } catch (err) {
+        if (err.code === "auth/email-already-in-use") {
+            alert("এই নাম্বার দিয়ে আগে রেজিস্টার করা হয়েছে");
+        } else {
+            alert(err.message);
+        }
+    }
+};
