@@ -4,39 +4,53 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ডিপোজিট</title>
+
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="wallet.css">
 </head>
+
 <body>
 
 <div class="container">
-<h2>ডিপোজিট করুন</h2>
+    <h2>ডিপোজিট করুন</h2>
 
-<div class="amount-grid">
-  <button onclick="selectAmount(500)">৳500</button>
-  <button onclick="selectAmount(3000)">৳3000</button>
-  <button onclick="selectAmount(5000)">৳5000</button>
-  <button onclick="selectAmount(10000)">৳10000</button>
-</div>
+    <!-- Amount Buttons -->
+    <div class="amount-grid">
+        <button onclick="selectAmount(500)">৳500</button>
+        <button onclick="selectAmount(1000)">৳1000</button>
+        <button onclick="selectAmount(2000)">৳2000</button>
+        <button onclick="selectAmount(3000)">৳3000</button>
+        <button onclick="selectAmount(5000)">৳5000</button>
+        <button onclick="selectAmount(10000)">৳10000</button>
+    </div>
 
-<p>Selected Amount: <strong id="showAmount">0</strong> ৳</p>
+    <!-- Selected Amount -->
+    <p class="selected-amount">
+        Selected Amount: <strong id="showAmount">0</strong> ৳
+    </p>
 
-<select id="method">
-  <option value="">পেমেন্ট মেথড</option>
-  <option value="bkash">Bkash</option>
-  <option value="nagad">Nagad</option>
-  <option value="rocket">Rocket</option>
-</select>
+    <!-- Payment Method -->
+    <select id="method">
+        <option value="">পেমেন্ট মেথড সিলেক্ট করুন</option>
+        <option value="bkash">Bkash</option>
+        <option value="nagad">Nagad</option>
+        <option value="rocket">Rocket</option>
+    </select>
 
-<p class="fixed-number">Send Money: <strong>01797632229</strong></p>
-<div class="fixed-number">
-    <span id="fixedNumberText">01797632229</span>
-    <button class="copy-btn" onclick="copyNumber()">কপি</button>
-</div>
-<input type="text" id="trxid" placeholder="Transaction ID">
-<input type="file" id="screenshot">
+    <!-- Fixed Number + Copy -->
+    <div class="fixed-number-box">
+        <span id="fixedNumberText">01797632229</span>
+        <button class="copy-btn" onclick="copyNumber()">কপি</button>
+    </div>
 
-<button onclick="submitDeposit()">Submit Deposit</button>
+    <!-- Transaction ID -->
+    <input type="text" id="trxid" placeholder="Transaction ID লিখুন">
+
+    <!-- Screenshot Upload -->
+    <input type="file" id="screenshot" accept="image/*">
+
+    <!-- Submit -->
+    <button class="submit-btn" onclick="submitDeposit()">Submit Deposit</button>
 </div>
 
 <script src="wallet.js"></script>
