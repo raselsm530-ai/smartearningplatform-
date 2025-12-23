@@ -1,49 +1,41 @@
-let amount = 0;
+import { db, storage } from "./firebase-config.js";
+import { ref, push, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+import { ref as sRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
 
-const paymentNumbers = {
-    "বিকাশ": "01797632229",
-    "নগদ": "01797632229",
-    "রকেট": "01797632229"
+let selectedAmount = 0;
+
+window.selectAmount = (amt) => {
+  selectedAmount = amt;
+  document.getElementById("showAmount").innerText = amt;
 };
 
-document.querySelectorAll(".amount").forEach(btn => {
-    btn.addEventListener("click", () => {
+window.submitDeposit = async () => {
 
-        document.querySelectorAll(".amount").forEach(x =>
-            x.classList.remove("active")
-        );
+  const method = document.getElementById("method").value;
+  const trxid = document.getElementById("trxid").value;
+  const file = document.getElementById("screenshot").files[0];
+  const phone = localStorage.getItem("user");
 
-        btn.classList.add("active");
+  if (!selectedAmount || !method || !trxid || !file) {
+    alert("সব তথ্য দিন");
+    return;
+  }
 
-        amount = btn.dataset.amount;
+  const imgRef = sRef(storage, "screenshots/" + Date.now());
+  await uploadBytes(imgRef, file);
+  const imgURL = await getDownloadURL(imgRef);
 
-        document.getElementById("selectedBox").innerHTML =
-            `আপনি নির্বাচন করেছেন <b>${amount}৳</b>`;
-    });
-});
+  const depRef = push(ref(db, "deposits"));
+  await set(depRef, {
+    phone,
+    amount: selectedAmount,
+    method,
+    trxid,
+    screenshot: imgURL,
+    status: "pending",
+    time: new Date().toLocaleString()
+  });
 
-window.deposit = () => {
-
-    if (!amount) {
-        alert("দয়া করে Amount নির্বাচন করুন");
-        return;
-    }
-
-    const method = document.getElementById("method").value;
-
-    if (!method) {
-        alert("মেথড নির্বাচন করুন");
-        return;
-    }
-
-    const num = paymentNumbers[method];
-
-    const box = document.getElementById("numberBox");
-    box.classList.remove("hidden");
-
-    box.innerHTML = `
-        📌 ${method} নাম্বার:<b> ${num}</b>
-        <br>এমাউন্ট: <b>${amount}৳</b>
-        <br><br>এখন টাকা পাঠান!
-    `;
+  alert("ডিপোজিট পেন্ডিং করা হয়েছে");
+  location.reload();
 };
