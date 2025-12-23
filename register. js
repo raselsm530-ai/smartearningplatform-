@@ -2,40 +2,38 @@ import { auth, db } from "./firebase-config.js";
 import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 import { ref, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-document.getElementById("registerBtn").addEventListener("click", registerUser);
+window.registerUser = () => {
+    const phone = document.getElementById("phone").value.trim();
+    const pass = document.getElementById("password").value.trim();
+    const cpass = document.getElementById("cpassword").value.trim();
 
-function registerUser(){
-  const phone = document.getElementById("phone").value.trim();
-  const pass = document.getElementById("password").value;
-  const confirm = document.getElementById("confirm").value;
+    if(!phone || !pass || !cpass) {
+        alert("সব ফিল্ড পূরণ করুন");
+        return;
+    }
+    if(pass !== cpass) {
+        alert("পাসওয়ার্ড মিলছে না");
+        return;
+    }
 
-  if(!phone || !pass || !confirm){
-    alert("সব ফিল্ড পূরণ করুন");
-    return;
-  }
+    const email = phone + "@smartplatform.com"; // fake email
 
-  if(pass !== confirm){
-    alert("পাসওয়ার্ড মিলেনি");
-    return;
-  }
-
-  const fakeEmail = phone + "@user.com";
-
-  createUserWithEmailAndPassword(auth, fakeEmail, pass)
-    .then(res=>{
-      const uid = res.user.uid;
-
-      return set(ref(db,"users/"+uid),{
-        phone,
-        balance:0,
-        created:new Date().toLocaleString()
-      });
-    })
-    .then(()=>{
-      alert("✅ Registration Successful");
-      window.location.href="login.html";
-    })
-    .catch(err=>{
-      alert(err.message);
-    });
+    createUserWithEmailAndPassword(auth, email, pass)
+        .then((userCredential) => {
+            const user = userCredential.user;
+            set(ref(db, "users/" + phone), {
+                phone,
+                balance: 0
+            });
+            localStorage.setItem("loggedInUser", phone);
+            alert("রেজিস্টার সফল 🎉");
+            window.location.href = "home.html";
+        })
+        .catch(err => {
+            if(err.code === "auth/email-already-in-use") {
+                alert("এই নাম্বার ইতিমধ্যে ব্যবহৃত হয়েছে");
+            } else {
+                alert("Error: " + err.message);
+            }
+        });
 }
