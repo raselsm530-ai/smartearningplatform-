@@ -1,40 +1,42 @@
-alert("register.js loaded");
 import { auth, db } from "./firebase-config.js";
-import { createUserWithEmailAndPassword }
-from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-import { ref, set }
-from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { ref, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-const form = document.getElementById("registerForm");
+document.getElementById("registerBtn").addEventListener("click", registerUser);
 
-form.addEventListener("submit", async (e) => {
-    e.preventDefault();
+function registerUser(){
+  const phone = document.getElementById("phone").value.trim();
+  const pass = document.getElementById("password").value;
+  const confirm = document.getElementById("confirm").value;
 
-    const phone = document.getElementById("phone").value.trim();
-    const pass = document.getElementById("password").value.trim();
-    const cpass = document.getElementById("cpassword").value.trim();
+  if(!phone || !pass || !confirm){
+    alert("সব ফিল্ড পূরণ করুন");
+    return;
+  }
 
-    if (pass !== cpass) {
-        alert("পাসওয়ার্ড মিলেনি");
-        return;
-    }
+  if(pass !== confirm){
+    alert("পাসওয়ার্ড মিলেনি");
+    return;
+  }
 
-    // phone → email trick
-    const email = phone + "@app.com";
+  // ফোনকে ইমেইলে কনভার্ট (Firebase এর জন্য)
+  const fakeEmail = phone + "@user.com";
 
-    try {
-        await createUserWithEmailAndPassword(auth, email, pass);
+  createUserWithEmailAndPassword(auth, fakeEmail, pass)
+    .then(res=>{
+      const uid = res.user.uid;
 
-        await set(ref(db, "users/" + phone), {
-            phone: phone,
-            balance: 0,
-            joined: new Date().toLocaleString()
-        });
-
-        alert("রেজিস্ট্রেশন সফল ✅");
-        location.href = "login.html";
-
-    } catch (err) {
-        alert(err.message);
-    }
-});
+      return set(ref(db,"users/"+uid),{
+        phone,
+        balance:0,
+        created:new Date().toLocaleString()
+      });
+    })
+    .then(()=>{
+      alert("✅ Registration Successful");
+      window.location.href="login.html";
+    })
+    .catch(err=>{
+      alert(err.message);
+    });
+}
