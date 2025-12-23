@@ -1,79 +1,82 @@
-// ===== FIXED PAYMENT NUMBERS =====
+// ================= FIXED PAYMENT NUMBERS =================
 const fixedNumbers = {
     bkash: "01797632229",
     nagad: "01797632229",
     rocket: "01797632229"
 };
 
-// ===== SHOW NUMBER =====
-function updateNumber() {
-    const method = document.getElementById("paymentMethod").value;
-    const box = document.getElementById("paymentNumber");
+let selectedAmount = 0;
 
-    if (!method) {
-        box.innerHTML = "মেথড নির্বাচন করুন";
-        return;
-    }
+// ================= AMOUNT SELECT =================
+function selectAmount(amount) {
+    selectedAmount = amount;
+    document.getElementById("showAmount").innerText = amount;
 
-    box.innerHTML = `
-        <div class="fixed-number">
-            <span id="fixedNumberText">${fixedNumbers[method]}</span>
-            <button class="copy-btn" onclick="copyNumber()">কপি</button>
-        </div>
-    `;
+    // visual active effect (optional)
+    document.querySelectorAll(".amount-grid button").forEach(btn => {
+        btn.classList.remove("active");
+    });
 }
 
-// ===== COPY NUMBER (100% WORKING) =====
+// ================= COPY NUMBER =================
 function copyNumber() {
     const text = document.getElementById("fixedNumberText").innerText;
 
-    const temp = document.createElement("input");
-    temp.value = text;
-    document.body.appendChild(temp);
-
-    temp.select();
-    temp.setSelectionRange(0, 99999);
-    document.execCommand("copy");
-
-    document.body.removeChild(temp);
-    alert("✅ নাম্বার কপি হয়েছে\nবিকাশ / নগদ অ্যাপে Paste করুন");
+    navigator.clipboard.writeText(text).then(() => {
+        alert("✅ নাম্বার কপি হয়েছে\nবিকাশ / নগদ অ্যাপে Paste করুন");
+    });
 }
 
-// ===== DEPOSIT REQUEST =====
-function depositMoney() {
-    const amount = document.getElementById("depositAmount").value;
-    const method = document.getElementById("paymentMethod").value;
-    const trxid = document.getElementById("trxid").value || "N/A";
+// ================= SUBMIT DEPOSIT =================
+function submitDeposit() {
+    const method = document.getElementById("method").value;
+    const trxid = document.getElementById("trxid").value.trim();
+    const screenshot = document.getElementById("screenshot").files[0];
 
-    if (!amount || !method) {
-        alert("এমাউন্ট ও মেথড দিন");
+    if (!selectedAmount) {
+        alert("❌ আগে এমাউন্ট সিলেক্ট করুন");
+        return;
+    }
+
+    if (!method) {
+        alert("❌ পেমেন্ট মেথড সিলেক্ট করুন");
+        return;
+    }
+
+    if (!trxid) {
+        alert("❌ Transaction ID দিন");
         return;
     }
 
     const user = localStorage.getItem("user");
     if (!user) {
-        alert("Login করুন");
+        alert("❌ আগে লগইন করুন");
         return;
     }
 
+    // ===== Deposit Object =====
     const deposit = {
-        user,
-        amount: Number(amount),
-        method,
+        user: user,
+        amount: selectedAmount,
+        method: method,
         number: fixedNumbers[method],
-        trxid,
+        trxid: trxid,
+        screenshot: screenshot ? screenshot.name : "N/A",
         status: "pending",
-        date: new Date().toLocaleString()
+        time: new Date().toLocaleString()
     };
 
+    // ===== Save Pending Deposit (Demo) =====
     let pending = JSON.parse(localStorage.getItem("pendingDeposits")) || [];
     pending.push(deposit);
     localStorage.setItem("pendingDeposits", JSON.stringify(pending));
 
-    alert("✅ ডিপোজিট রিকোয়েস্ট পাঠানো হয়েছে");
+    alert("✅ ডিপোজিট রিকোয়েস্ট পাঠানো হয়েছে\nঅ্যাডমিন এপ্রুভের অপেক্ষা করুন");
 
-    document.getElementById("depositAmount").value = "";
+    // ===== Reset =====
+    selectedAmount = 0;
+    document.getElementById("showAmount").innerText = "0";
+    document.getElementById("method").value = "";
     document.getElementById("trxid").value = "";
-}function setAmount(amount) {
-    document.getElementById("depositAmount").value = amount;
-}
+    document.getElementById("screenshot").value = "";
+}    
