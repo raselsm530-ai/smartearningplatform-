@@ -1,47 +1,77 @@
-import { db, storage } from "./firebase-config.js";
-import { ref, push, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
-import { ref as sRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
-
-let selectedAmount = 0;
-
-window.selectAmount = (amt) => {
-  selectedAmount = amt;
-  document.getElementById("showAmount").innerText = amt;
+// ===== FIXED PAYMENT NUMBERS =====
+const fixedNumbers = {
+    bkash: "01797632229",
+    nagad: "01797632229",
+    rocket: "01797632229"
 };
-function copyNumber() {
-    const number = document.getElementById("fixedNumberText").innerText;
 
-    navigator.clipboard.writeText(number).then(() => {
-        alert("নাম্বার কপি হয়েছে ✅ এখন বিকাশ/নগদ অ্যাপে পেস্ট করুন");
-    });
+// ===== SHOW NUMBER =====
+function updateNumber() {
+    const method = document.getElementById("paymentMethod").value;
+    const box = document.getElementById("paymentNumber");
+
+    if (!method) {
+        box.innerHTML = "মেথড নির্বাচন করুন";
+        return;
+    }
+
+    box.innerHTML = `
+        <div class="fixed-number">
+            <span id="fixedNumberText">${fixedNumbers[method]}</span>
+            <button class="copy-btn" onclick="copyNumber()">কপি</button>
+        </div>
+    `;
 }
-window.submitDeposit = async () => {
 
-  const method = document.getElementById("method").value;
-  const trxid = document.getElementById("trxid").value;
-  const file = document.getElementById("screenshot").files[0];
-  const phone = localStorage.getItem("user");
+// ===== COPY NUMBER (100% WORKING) =====
+function copyNumber() {
+    const text = document.getElementById("fixedNumberText").innerText;
 
-  if (!selectedAmount || !method || !trxid || !file) {
-    alert("সব তথ্য দিন");
-    return;
-  }
+    const temp = document.createElement("input");
+    temp.value = text;
+    document.body.appendChild(temp);
 
-  const imgRef = sRef(storage, "screenshots/" + Date.now());
-  await uploadBytes(imgRef, file);
-  const imgURL = await getDownloadURL(imgRef);
+    temp.select();
+    temp.setSelectionRange(0, 99999);
+    document.execCommand("copy");
 
-  const depRef = push(ref(db, "deposits"));
-  await set(depRef, {
-    phone,
-    amount: selectedAmount,
-    method,
-    trxid,
-    screenshot: imgURL,
-    status: "pending",
-    time: new Date().toLocaleString()
-  });
+    document.body.removeChild(temp);
+    alert("✅ নাম্বার কপি হয়েছে\nবিকাশ / নগদ অ্যাপে Paste করুন");
+}
 
-  alert("ডিপোজিট পেন্ডিং করা হয়েছে");
-  location.reload();
-};
+// ===== DEPOSIT REQUEST =====
+function depositMoney() {
+    const amount = document.getElementById("depositAmount").value;
+    const method = document.getElementById("paymentMethod").value;
+    const trxid = document.getElementById("trxid").value || "N/A";
+
+    if (!amount || !method) {
+        alert("এমাউন্ট ও মেথড দিন");
+        return;
+    }
+
+    const user = localStorage.getItem("user");
+    if (!user) {
+        alert("Login করুন");
+        return;
+    }
+
+    const deposit = {
+        user,
+        amount: Number(amount),
+        method,
+        number: fixedNumbers[method],
+        trxid,
+        status: "pending",
+        date: new Date().toLocaleString()
+    };
+
+    let pending = JSON.parse(localStorage.getItem("pendingDeposits")) || [];
+    pending.push(deposit);
+    localStorage.setItem("pendingDeposits", JSON.stringify(pending));
+
+    alert("✅ ডিপোজিট রিকোয়েস্ট পাঠানো হয়েছে");
+
+    document.getElementById("depositAmount").value = "";
+    document.getElementById("trxid").value = "";
+}
